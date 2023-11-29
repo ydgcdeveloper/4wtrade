@@ -1,0 +1,131 @@
+{% extends 'main.html.twig' %}
+
+{% block content %}
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2 class="appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">Referral Program</h2>
+
+        <div class="right-wrapper pull-right appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="{{ path('homepage') }}">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>My referrals</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <div class="row">
+
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <section class="panel panel-featured-left panel-featured-primary appear-animation fadeInRightBig appear-animation-visible" data-appear-animation="fadeRightBig">
+                        <div class="panel-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-info">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">My referral link</h4>
+                                        <div class="info">
+                                            <p class="btn-link" id="referencelink">
+                                                http://www.4wtrade.com/register?id={{ app.user.username }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="summary-footer">
+                                        <button type="button" class="btn" data-clipboard-action="copy"
+                                            data-toggle="tooltip" data-placement="left" title="Copy link"
+                                            onclick="showToastFlash('success', 'Referral link copied to clipboard')"
+                                            data-clipboard-target="#referencelink"> <i class="fa fa-copy"></i></button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <i class="fa fa-smile-o text-warning fa-3x"></i>
+        <strong>This is awesome!! </strong> You can invite your friends and earn for free, share your reference link,
+        let's win together <i class="fa fa-thumbs-o-up"></i>
+    </div>
+
+    <section class="panel">
+
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">My referrals</h2>
+        </header>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-condensed mb-none">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th class="text-center">Entry Date</th>
+                            <th class="text-center">Active <i class="fa fa-question-circle"></i></th>
+                            <th class="text-right">Benefits <i class="fa fa-dollar"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set refers = app.user.getRefusers() %}
+                        {% for refer in refers %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ refer.username }}</td>
+                            <td class="text-center">{{ refer.createdAt|date("m/d/Y") }}</td>
+                            <td class="text-center"><i
+                                    {{ refer.active ? "class='fa fa-check text-success'" : "class='fa fa-times text-danger'" }}></i>
+                            </td>
+                            <td class="text-right">
+                                {{ refer.commission[0] }}
+                                <a href="#" type="button" data-toggle="popover" data-container="body"
+                                    data-placement="left" data-html='true' data-content="
+                                BTC:{{ refer.commission[0] }}  <br>  ETH:{{ refer.commission[1] }} <br>
+                                USDT:{{ refer.commission[2] }} <br> LTC:{{ refer.commission[3] }} <br>
+                                XRP:{{ refer.commission[4] }} <br> BCH:{{ refer.commission[5] }} <br>
+                                TRX:{{ refer.commission[6] }} <br> DOGE:{{ refer.commission[7] }} <br>
+                                DASH:{{ refer.commission[8] }} <br> NANO:{{ refer.commission[9] }}" data-trigger="focus"
+                                    class="badge badge-pill">Details</a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ asset('assets/javascripts/clipboard.min.js') }}"></script>
+    <script>
+        new ClipboardJS('.btn');
+    </script>
+
+</section>
+
+{% endblock %}

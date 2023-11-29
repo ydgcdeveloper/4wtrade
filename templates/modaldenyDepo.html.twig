@@ -1,0 +1,31 @@
+<div class="modal fade in" id="modalDenyDepo" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #eaeceb !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titledenydepo">Deny deposit</h4>
+            </div>
+            <form action="{{ path('denydepo') }}" method="post">
+                <div class="modal-body">
+                    <input id="denydepoid" name="denydepoid" type="text" hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Deny</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#modalDenyDepo').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const depoid = button.data('depoid');
+        const depoabbr = button.data('depoabbr');
+        modal.find('#denydepoid').val(depoid);
+        modal.find('#titledenydepo').text("Deny deposit of " + depoabbr);
+    });
+</script>

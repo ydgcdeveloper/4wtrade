@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html class="fixed" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Basic -->
+	<meta charset="UTF-8">
+
+	<title>
+		{% block title %}
+		4WTrade - Dashboard
+		{% endblock %}
+	</title>
+	<meta name="keywords" content="4WTrade" />
+	<meta name="description" content="4WTrade - Make this wise investment">
+	<meta name="author" content="4WTrade.com">
+
+	<link rel="icon" href="{{ asset('assets/logoicon.png') }}" type="image/png" />
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<!-- Web Fonts  -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+		rel="stylesheet" type="text/css">
+
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/datepicker3.css') }}" />
+
+	<!-- Specific Page Vendor CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/morris/morris.css') }}" />
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme.css') }}" />
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/skins/default.css') }}" />
+
+	<!-- Theme Custom CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/toastr.min.css') }}">
+
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/sweetalert/sweetalert.css') }}">
+
+	<link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/owl.carousel.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/owl.theme.css') }}" />
+
+	<!-- Head Libs -->
+	<script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+	<script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+
+	<script src="{{ asset('assets/javascripts/toastr.min.js') }}"></script>
+
+	<script src="{{ asset('assets/vendor/magnific-popup/magnific-popup.js') }}"></script>
+
+	<script src="{{ asset('assets/vendor/owl-carousel/owl.carousel.js') }}"></script>
+
+</head>
+
+<body>
+	<section class="body">
+
+		{% for label, messages in app.flashes %}
+		{% for message in messages %}
+		<script>
+			toastr['{{ label }}']('{{ message }}', 'Message', {
+				progressBar: true,
+			});
+		</script>
+		{% endfor %}
+		{% endfor %}
+
+		<!-- start: header -->
+		<header class="header">
+			<div class="logo-container">
+				<a href="{{ path('homepage') }}" class="logo appear-animation flash appear-animation-visible"
+					data-appear-animation="flash">
+					<img src="{{ asset('assets/images/logo.png')}}" height="35" alt="4WTrade" />
+				</a>
+				<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
+					data-fire-event="sidebar-left-opened">
+					<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+				</div>
+			</div>
+
+			<!-- start: search & user box -->
+			<div class="header-right">
+
+				<ul class="notifications">
+					<li>
+						<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+							<i class="fa fa-tasks"></i>
+							<span class="badge">3</span>
+						</a>
+
+						<div class="dropdown-menu notification-menu large">
+							<div class="notification-title">
+								<span class="pull-right label label-default">3</span>
+								Tasks
+							</div>
+
+							<div class="content">
+								<ul>
+									<li>
+										<p class="clearfix mb-xs">
+											<span class="message pull-left">Generating Sales Report</span>
+											<span class="message pull-right text-dark">60%</span>
+										</p>
+										<div class="progress progress-xs light">
+											<div class="progress-bar" role="progressbar" aria-valuenow="60"
+												aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+										</div>
+									</li>
+
+									<li>
+										<p class="clearfix mb-xs">
+											<span class="message pull-left">Importing Contacts</span>
+											<span class="message pull-right text-dark">98%</span>
+										</p>
+										<div class="progress progress-xs light">
+											<div class="progress-bar" role="progressbar" aria-valuenow="98"
+												aria-valuemin="0" aria-valuemax="100" style="width: 98%;"></div>
+										</div>
+									</li>
+
+									<li>
+										<p class="clearfix mb-xs">
+											<span class="message pull-left">Uploading something big</span>
+											<span class="message pull-right text-dark">33%</span>
+										</p>
+										<div class="progress progress-xs light mb-xs">
+											<div class="progress-bar" role="progressbar" aria-valuenow="33"
+												aria-valuemin="0" aria-valuemax="100" style="width: 33%;"></div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+							<i class="fa fa-envelope"></i>
+							<span class="badge">4</span>
+						</a>
+
+						<div class="dropdown-menu notification-menu">
+							<div class="notification-title">
+								<span class="pull-right label label-default">230</span>
+								Messages
+							</div>
+
+							<div class="content">
+								<ul>
+									<li>
+										<a href="#" class="clearfix">
+											<figure class="image">
+												<img src="assets/images/!sample-user.jpg" alt="Joseph Doe Junior"
+													class="img-circle" />
+											</figure>
+											<span class="title">Joseph Doe</span>
+											<span class="message">Lorem ipsum dolor sit.</span>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="clearfix">
+											<figure class="image">
+												<img src="assets/images/!sample-user.jpg" alt="Joseph Junior"
+													class="img-circle" />
+											</figure>
+											<span class="title">Joseph Junior</span>
+											<span class="message truncate">Truncated message. Lorem ipsum dolor sit
+												amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin
+												vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla
+												molestie malesuada est ac tincidunt. Quisque eget convallis diam, nec
+												venenatis risus. Vestibulum blandit faucibus est et malesuada. Sed
+												interdum cursus dui nec venenatis. Pellentesque non nisi lobortis,
+												rutrum eros ut, convallis nisi. Sed tellus turpis, dignissim sit amet
+												tristique quis, pretium id est. Sed aliquam diam diam, sit amet faucibus
+												tellus ultricies eu. Aliquam lacinia nibh a metus bibendum, eu commodo
+												eros commodo. Sed commodo molestie elit, a molestie lacus porttitor id.
+												Donec facilisis varius sapien, ac fringilla velit porttitor et. Nam
+												tincidunt gravida dui, sed pharetra odio pharetra nec. Duis consectetur
+												venenatis pharetra. Vestibulum egestas nisi quis elementum
+												elementum.</span>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="clearfix">
+											<figure class="image">
+												<img src="assets/images/!sample-user.jpg" alt="Joe Junior"
+													class="img-circle" />
+											</figure>
+											<span class="title">Joe Junior</span>
+											<span class="message">Lorem ipsum dolor sit.</span>
+										</a>
+									</li>
+									<li>
+										<a href="#" class="clearfix">
+											<figure class="image">
+												<img src="assets/images/!sample-user.jpg" alt="Joseph Junior"
+													class="img-circle" />
+											</figure>
+											<span class="title">Joseph Junior</span>
+											<span class="message">Lorem ipsum dolor sit amet, consectetur adipiscing
+												elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non
+												luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac
+												tincidunt. Quisque eget convallis diam.</span>
+										</a>
+									</li>
+								</ul>
+
+								<hr />
+
+								<div class="text-right">
+									<a href="#" class="view-more">View All</a>
+								</div>
+							</div>
+						</div>
+					</li>
+					{% if app.user.getHistories() != null %}
+					{% set notifications = app.user.getHistories()|filter(value => (value.date < app.user.lastlogin and value.date > app.user.lastlogout) or (value.date > app.user.lastlogin and value.date > app.user.lastlogout))|sort(value => value.date|date("m/d/Y H:i:s")) %}
+					{% if notifications|length != 0 %}
+					<li class="appear-animation appear-animation swing appear-animation-visible"
+						data-appear-animation="swing">
+						<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+							<i class="fa fa-bell"></i>
+							<span class="badge">{{ notifications|length }}</span>
+						</a>
+
+						<div class="dropdown-menu notification-menu">
+							<div class="notification-title">
+								<span class="pull-right label label-default">{{ notifications|length }}</span>
+								Notifications
+							</div>
+
+							<div class="content">
+								<ul>
+									{% for notification in notifications %}
+									<li>
+										<a href="#" class="clearfix">
+											<div class="image">
+												<i
+													class="fa {{ notification.cssclass ? notification.cssclass }} bg-{{ notification.type ? notification.type }}"></i>
+											</div>
+											<span class="title">{{ notification.title }}</span>
+											<span class="message">{{ notification.description }}</span>
+										</a>
+									</li>
+									{% endfor %}
+								</ul>
+
+								<hr />
+
+								<div class="text-right">
+									<a href="{{ app.request.get('_route') == 'dashboard' ? '#panelreferral' : asset('dashboard#panelreferral') }}"
+										class="view-more">View All</a>
+								</div>
+							</div>
+						</div>
+					</li>
+					{% endif %}
+					{% endif %}
+				</ul>
+
+				<span class="separator"></span>
+
+				<div id="userbox" class="userbox">
+					<a href="#" data-toggle="dropdown">
+						<figure class="profile-picture">
+							<img src="{{ asset('assets/images/!logged-user.jpg') }}" alt="{{ app.user.username }}"
+								class="img-circle" data-lock-picture="" />
+						</figure>
+						<div class="profile-info" data-lock-name="{{ app.user.name }}"
+							data-lock-email="{{ app.user.email }}">
+							<span class="name">{{ app.user.name }}</span>
+							<span class="role">{{ app.user.username }}</span>
+						</div>
+
+						<i class="fa custom-caret"></i>
+					</a>
+
+					<div class="dropdown-menu">
+						<ul class="list-unstyled">
+							<li class="divider"></li>
+							<li>
+								<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i
+										class="fa fa-lock"></i> Lock Screen</a>
+							</li>
+							<li>
+								<a role="menuitem" tabindex="-1" href="{{ path('before_logout') }}"><i
+										class="fa fa-power-off"></i> Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- end: search & user box -->
+		</header>
+		<!-- end: header -->
+
+		<div class="inner-wrapper">
+			<!-- start: sidebar -->
+			<aside id="sidebar-left" class="sidebar-left">
+
+				<div class="sidebar-header">
+					<div class="sidebar-title text-info">
+						Menu
+					</div>
+					<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+						data-fire-event="sidebar-left-toggle">
+						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+					</div>
+				</div>
+
+				<div class="nano appear-animation bounceInLeft appear-animation-visible"
+					data-appear-animation="bounceInLeft">
+					<div class="nano-content">
+						<nav id="menu" class="nav-main" role="navigation">
+							<ul class="nav nav-main">
+								<li>
+									<a href="{{ path('homepage')}}">
+										<i class="fa fa-home" aria-hidden="true"></i>
+										<span>Home</span>
+									</a>
+								</li>
+								{% if is_granted('ROLE_ADMIN') %}
+								<li>
+									<a href="{{ path('admin') }}">
+										<i class="fa fa-cogs" aria-hidden="true"></i>
+										<span>Admin <span class="text-muted">(ONLY FOR ADMIN USERS)</span></span>
+										<i class="fa fa-hand-o-left" aria-hidden="true"></i>
+									</a>
+								</li>
+								{% endif %}
+								<li>
+									<a href="{{ path('dashboard') }}">
+										<i class="fa fa-dashboard" aria-hidden="true"></i>
+										<span>Dashboard</span>
+									</a>
+								</li>
+								<li class="nav-parent">
+									<a>
+										<i class="fa fa-suitcase" aria-hidden="true"></i>
+										<span>Finance</span>
+									</a>
+									<ul class="nav nav-children">
+										<li>
+											<a href="{{ path('walletV') }}">
+												<i class="fa fa-bitcoin" aria-hidden="true"></i>
+												<span>Wallet</span>
+											</a>
+										</li>
+										<li>
+											<a href="{{ path('depositV') }}">
+												<i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+												<span>Deposit</span>
+											</a>
+										</li>
+										<li>
+											<a href="{{ path('withdrawV') }}">
+												<i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+												<span>Withdraw</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="{{ path('referralP') }}">
+										<i class="fa fa-users" aria-hidden="true"></i>
+										<span>Referral program</span>
+									</a>
+								</li>
+								<li class="nav-parent">
+									<a>
+										<i class="fa fa-shield" aria-hidden="true"></i>
+										<span>Security</span>
+									</a>
+									<ul class="nav nav-children">
+										<li>
+											<a href="{{ path('changepass') }}">
+												<i class="fa fa-lock"></i>
+												Change Password
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+
+						<hr class="separator" />
+
+						<div class="sidebar-widget widget-tasks">
+							<div class="widget-header">
+								<h6>Markets stats</h6>
+								<div class="widget-toggle">+</div>
+							</div>
+							<div class="widget-content">
+
+								<div class="owl-carousel" data-plugin-carousel
+									data-plugin-options='{ "autoPlay": 3000, "items": 1,  "navigation": false, "pagination": false }'>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/bitcoin/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/btc@2x.png') }}"
+														alt="BTC">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Bitcoin(BTC)
+												</h5>
+												<h6 class="crypto-prices" id="price-BTC"> </h6>
+												<h6 class="crypto-changes" id="change-BTC"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/ethereum/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/eth@2x.png') }}"
+														alt="ETH">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Ethereum(ETH)
+												</h5>
+												<h6 class="crypto-prices" id="price-ETH">
+													</h5>
+													<h6 class="crypto-changes" id="change-ETH"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/tether/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/usdt@2x.png') }}"
+														alt="USDT">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Tether(USDT)
+												</h5>
+												<h6 class="crypto-prices" id="price-USDT">
+													</h5>
+													<h6 class="crypto-changes" id="change-USDT"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/litecoin/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/ltc@2x.png') }}"
+														alt="LTC">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Litecoin(LTC)
+												</h5>
+												<h6 class="crypto-prices" id="price-LTC">
+													</h5>
+													<h6 class="crypto-changes" id="change-LTC"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/xrp/" target="_blank"
+													rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/xrp@2x.png') }}"
+														alt="XRP">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">XRP(XRP)</h5>
+												<h6 class="crypto-prices" id="price-XRP">
+													</h5>
+													<h6 class="crypto-changes" id="change-XRP"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/bitcoin-cash/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/bch@2x.png') }}"
+														alt="BCH">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Bitcoin
+													Cash(BCH)
+												</h5>
+												<h6 class="crypto-prices" id="price-BCH">
+													</h5>
+													<h6 class="crypto-changes" id="change-BCH"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/tron/" target="_blank"
+													rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/trx@2x.png') }}"
+														alt="TRX">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Tron(TRX)</h5>
+												<h6 class="crypto-prices" id="price-TRX">
+													</h5>
+													<h6 class="crypto-changes" id="change-TRX"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/dogecoin/"
+													target="_blank" rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/doge@2x.png') }}"
+														alt="DOGE">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Dogecoin(DOGE)
+												</h5>
+												<h6 class="crypto-prices" id="price-DOGE">
+													</h5>
+													<h6 class="crypto-changes" id="change-DOGE"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/dash/" target="_blank"
+													rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/dash@2x.png') }}"
+														alt="DASH">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Dash(DASH)</h5>
+												<h6 class="crypto-prices" id="price-DASH">
+													</h5>
+													<h6 class="crypto-changes" id="change-DASH"> </h6>
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<div class="panel">
+											<header class="panel-heading bg-gray center">
+												<a href="https://coinmarketcap.com/es/currencies/nano/" target="_blank"
+													rel="noopener">
+													<img src="{{ asset('assets/images/cryptos/nano@2x.png') }}"
+														alt="NANO">
+												</a>
+											</header>
+											<div class="panel-body bg-dark">
+												<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Nano(NANO)</h5>
+												<h6 class="crypto-prices" id="price-NANO"> </h6>
+												<h6 class="crypto-changes" id="change-NANO"> </h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr class="separator" />
+
+						<div class="sidebar-widget widget-stats">
+							<div class="widget-header">
+								<h6>My investments</h6>
+								<div class="widget-toggle">+</div>
+							</div>
+							<div class="widget-content">
+								<ul>
+									{% set investments = app.user.getInvestments() %}
+									{% for investment in investments %}
+									<li>
+										<span class="stats-title">{{ loop.index }}.
+											<span class="text-center">
+												<img src="{{ asset("assets/images/cryptos/" ~ investment.coin.abbr|lower ~ ".png") }}"
+													alt="{{ investment.coin.abbr|upper }}" data-toggle="tooltip"
+													data-placement="top" title="{{ investment.coin.abbr|upper }}"
+													style="max-width: 16px;">
+											</span>
+										</span>
+										<span
+											class="stats-complete">{{ investment.paidpercent|number_format(1, '.', ' ') }}%</span>
+										<div class="progress">
+											<div class="progress-bar progress-bar-primary progress-without-number"
+												role="progressbar" aria-valuenow="{{ investment.paidpercent }}"
+												aria-valuemin="0" aria-valuemax="200"
+												style="width: {{ investment.paidpercent / 2 }}%;">
+												<span
+													class="sr-only">{{ investment.paidpercent|number_format(1, '.', ' ') }}%
+													Complete</span>
+											</div>
+										</div>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						<hr class="separator" />
+					</div>
+
+				</div>
+
+			</aside>
+			<!-- end: sidebar -->
+
+			<!-- start: page -->
+			{% block content %}
+
+			{% endblock %}
+			<!-- end: page -->
+		</div>
+
+		<aside id="sidebar-right" class="sidebar-right">
+			<div class="nano">
+				<div class="nano-content">
+					<a href="#" class="mobile-close visible-xs">
+						Collapse <i class="fa fa-chevron-right"></i>
+					</a>
+
+					<div class="sidebar-right-wrapper">
+
+						<div class="sidebar-widget widget-calendar">
+							<h6>Check all the Payments</h6>
+							<div id="paymentbydate" data-plugin-datepicker data-date-start-date="1/1/2021"
+								data-date-end-date="0d" data-plugin-skin="dark"></div>
+
+							<ul>
+								<li>
+									<h4 id="paidbydate">Paid: </h4>
+								</li>
+							</ul>
+						</div>						
+
+					</div>
+				</div>
+			</div>
+		</aside>
+	</section>
+
+	<!-- Vendor -->
+	<script src="{{ asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.js') }}"></script>
+	<script src="{{ asset('assets/vendor/nanoscroller/nanoscroller.js') }}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+
+	<!-- Theme Base, Components and Settings -->
+	<script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+	<!-- Theme Custom -->
+	<script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+	<!-- Theme Initialization Files -->
+	<script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+
+	<script src="{{ asset('assets/stylesheets/sweetalert/sweetalert.min.js') }}"></script>
+
+	<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+	<script>
+		$(document).ready(function () {
+			// get current URL path and assign 'active' class
+			var pathname = window.location.pathname;
+			$('nav > ul > li > ul > li > a[href="' + pathname + '"]').parent().addClass('nav-active');
+			$('nav > ul > li > ul > li > a[href="' + pathname + '"]').parent().parent().parent().addClass(
+				'nav-expanded nav-active');
+			$('nav > ul > li > a[href="' + pathname + '"]').parent().addClass('nav-active');
+		})
+
+		function showToastFlash(label, message) {
+			toastr[label](message, 'Message', {
+				progressBar: true,
+			});
+		}
+
+		function updateChanges() {
+			const change = async () => {
+				changes = $('.crypto-changes');
+				prices = $('.crypto-prices');
+				for (i = 0; i < changes.length; i++) {
+					coin = $(changes[i]).attr('id').split('-')[1];
+					changecomp = $(`#change-${coin}`);
+					url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin}&tsyms=USD`;
+					resp = await fetch(url);
+					res = await resp.json();
+					coin = coin.toString().toUpperCase();
+					var change = res['RAW'][coin].USD.CHANGEPCT24HOUR;
+					changecomp.html(("Change 24H: " + (change >= 0 ?
+						"<i class='text-success fa fa-long-arrow-up'></i> " :
+						"<i class='text-danger fa fa-long-arrow-down'></i> ") + (change >= 0 ?
+						"<span class='text-success'>" + (change).toFixed(2) + "%</span>" :
+						"<span class='text-danger'>" + (change).toFixed(2).replace('-', '') + "%</span>")));
+
+					coin = $(prices[i]).attr('id').split('-')[1];
+					pricecomp = $(`#price-${coin}`);
+					url = `https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=USD`;
+					resp = await fetch(url);
+					res = await resp.json();
+					pricecomp.html('Price: ' + "<span class='text-warning'>$" + (res.USD).toFixed(2) + "</span>");
+				}
+			}
+			change();
+		}
+
+		function updatePrices() {
+			const price = async () => {
+				prices = $('.crypto-prices');
+				for (i = 0; i < prices.length; i++) {
+					coin = $(prices[i]).attr('id').split('-')[1];
+					pricecomp = $(`#price-${coin}`);
+					const url = `https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=USD`;
+					const resp = await fetch(url);
+					const res = await resp.json();
+					pricecomp.text('$ ' + (res.USD).toFixed(2));
+				}
+			}
+			price();
+		}
+
+		updateChanges();
+
+		function getPaymentByDay(date) {
+			var route = Routing.generate("getpayment");
+			$.ajax({
+				type: 'POST',
+				url: route,
+				async: true,
+				data: {
+					date: date
+				},
+				success: function (data) {
+					if(data.notice == 'success'){
+						$('#paidbydate').text(`Paid: ${data.paid}%`);
+					}else{
+						$('#paidbydate').text('No data');
+					}
+				},
+				error: function () {
+					$('#paidbydate').text('No data');
+				}
+			});
+		}
+		$('#paymentbydate').on('changeDate', function () {
+			console.log($(this).datepicker('getFormattedDate'));
+			getPaymentByDay($(this).datepicker('getFormattedDate'));
+		});
+	</script>
+
+</body>
+
+</html>

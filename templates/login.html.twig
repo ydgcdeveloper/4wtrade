@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="fixed">
+
+<head>
+	<!-- Basic -->
+	<meta charset="UTF-8">
+
+	<title>
+		{% block title %}
+		4WTrade - Login
+		{% endblock %}
+	</title>
+
+	<meta name="keywords" content="4WTrade" />
+	<meta name="description" content="4WTrade - Make this wise investment">
+	<meta name="author" content="4WTrade.com">
+
+	<link rel="icon" href="{{ asset('assets/logoicon.png') }}" type="image/png" />
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<!-- Web Fonts  -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+		rel="stylesheet" type="text/css">
+
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.css') }}" />
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme.css') }}" />
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/skins/default.css') }}" />
+
+	<!-- Theme Custom CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+
+	<!-- Head Libs -->
+	<script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/toastr.min.css') }}">
+
+</head>
+
+<body>
+	<!-- start: page -->
+	<section class="body-sign">
+		<div class="center-sign">
+			<a href="/" class="logo pull-left">
+				<img src="{{ asset('assets/images/logo.png') }}" height="54" alt="4WTrade" />
+			</a>
+
+			<div class="panel panel-sign">
+				<div class="panel-title-sign mt-xl text-right">
+					<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
+				</div>
+				<div class="panel-body">
+					<form action="{{ path('login_check') }}" method="POST" onsubmit="return checkCaptchaLogin()">
+
+						{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+						</div>
+						{% endif %}
+					
+						<div class="form-group mb-lg">
+							<label>Username or email</label>
+							<div class="input-group input-group-icon">
+								<input name="_username" value="{{ last_username }}" type="text"
+									class="form-control input-sm" placeholder="Type username or email" required />
+								<span class="input-group-addon">
+									<span class="icon icon-sm">
+										<i class="fa fa-user"></i>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="form-group mb-lg">
+							<div class="clearfix">
+								<label class="pull-left">Password</label>
+								<a href="{{ path('app_forgot_password_request') }}" class="pull-right">Lost Password?</a>
+							</div>
+							<div class="input-group input-group-icon">
+								<input name="_password" type="password" class="form-control input-sm" required />
+								<span class="input-group-addon">
+									<span class="icon icon-sm">
+										<i class="fa fa-lock"></i>
+									</span>
+								</span>
+							</div>
+						</div>
+
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="g-recaptcha" data-sitekey="6Lc_7yEaAAAAAB73EaAASDZYLOphRpZeHtVy8VGU"></div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-8">
+								<div class="checkbox-custom checkbox-default">
+									<input id="RememberMe" name="rememberme" type="checkbox" />
+									<label for="RememberMe">Remember Me</label>
+								</div>
+							</div>
+
+							<div class="col-sm-4 text-right">
+								<button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
+								<button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign
+									In</button>
+							</div>
+						</div>
+
+						<p class="text-center mt-lg">Don't have an account yet? <a href="{{ path('register') }}">Sign
+								Up!</a>
+
+					</form>
+				</div>
+			</div>
+
+			<p class="text-center text-muted mt-md mb-md">&copy; Copyright 2021. All rights reserved. </p>
+		</div>
+	</section>
+	<!-- end: page -->
+
+	<!-- Vendor -->
+	<script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.js') }}"></script>
+	<script src="{{ asset('assets/vendor/nanoscroller/nanoscroller.js') }}"></script>
+	<script src="{{ asset('assets/vendor/magnific-popup/magnific-popup.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+
+
+	<!-- Theme Base, Components and Settings -->
+	<script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+	<!-- Theme Custom -->
+	<script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+	<!-- Theme Initialization Files -->
+	<script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+
+	<script src="{{ asset('assets/javascripts/toastr.min.js') }}"></script>
+
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+
+	{% for label, messages in app.flashes %}
+	{% for message in messages %}
+	<script>
+		toastr['{{ label }}']('{{ message }}', 'Message', {
+			progressBar: true,
+		});
+	</script>
+	{% endfor %}
+	{% endfor %}
+
+	<script>
+		function checkCaptchaLogin() {
+			var response = grecaptcha.getResponse();
+
+			if (response.length == 0) {				
+				toastr['error']('Check the captcha', 'Error', {
+					progressBar: true,
+				});
+				return true;
+				event.preventDefault();
+			} else {
+				return true;
+			}
+		}
+	</script>
+
+</body>
+
+</html>

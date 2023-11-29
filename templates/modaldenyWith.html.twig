@@ -1,0 +1,32 @@
+<div class="modal fade in" id="modalDenyWith" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #eaeceb !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titledenywith">Deny withdrawal</h4>
+    
+            </div>
+            <form action="{{ path('denywith') }}" method="post">
+                <div class="modal-body">
+                    <input id="denywithid" name="denywithid" type="text" hidden>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Deny</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#modalDenyWith').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const withid = button.data('withid');
+        const withabbr = button.data('withabbr');
+        modal.find('#denywithid').val(withid);
+        modal.find('#titledenywith').text("Deny withdrawal of " + withabbr);
+    });
+</script>

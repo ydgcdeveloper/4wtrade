@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html class="fixed" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        4WTrade - Admin
+        {% endblock %}
+    </title>
+    <meta name="keywords" content="4WTrade" />
+    <meta name="description" content="4WTrade - Make this wise investment">
+    <meta name="author" content="4WTrade.com">
+
+    <link rel="icon" href="{{ asset('assets/logoicon.png') }}" type="image/png" />
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+        rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/datepicker3.css') }}" />
+
+    <!-- Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatables-bs3/assets/css/datatables.css') }}" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/theme.css') }}" />
+
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/skins/default.css') }}" />
+
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/toastr.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/sweetalert/sweetalert.css') }}">
+
+    <!-- Head Libs -->
+    <script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+    <script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+
+    <script src="{{ asset('assets/javascripts/toastr.min.js') }}"></script>
+
+    <script src="{{ asset('assets/vendor/magnific-popup/magnific-popup.js') }}"></script>
+
+</head>
+
+<body>
+    <section class="body">
+
+        {% for label, messages in app.flashes %}
+        {% for message in messages %}
+        <script>
+            toastr['{{ label }}']('{{ message }}', 'Message', {
+                progressBar: true,
+            });
+        </script>
+        {% endfor %}
+        {% endfor %}
+
+        <!-- start: header -->
+        <header class="header bg-site">
+            <div class="logo-container">
+                <a href="{{ path('homepage') }}" class="logo">
+                    <img src="{{ asset('assets/images/logo.png')}}" height="35" alt="4WTrade" />
+                </a>
+                <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
+                    data-fire-event="sidebar-left-opened">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+
+            <!-- start: search & user box -->
+            <div class="header-right">
+
+                <ul class="notifications">
+                    {% if app.user.getHistories() != null %}
+                    {% set notifications = app.user.getHistories()|filter(value => (value.date < app.user.lastlogin and value.date > app.user.lastlogout) or (value.date > app.user.lastlogin and value.date > app.user.lastlogout))|sort(value => value.date|date("d/m/Y H:i:s")) %}
+                    {% if notifications|length != 0 %}
+                    <li class="appear-animation appear-animation swing appear-animation-visible"
+                        data-appear-animation="swing">
+                        <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i>
+                            <span class="badge">{{ notifications|length }}</span>
+                        </a>
+
+                        <div class="dropdown-menu notification-menu">
+                            <div class="notification-title">
+                                <span class="pull-right label label-default">{{ notifications|length }}</span>
+                                Notifications
+                            </div>
+
+                            <div class="content">
+                                <ul>
+                                    {% for notification in notifications %}
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <div class="image">
+                                                <i
+                                                    class="fa {{ notification.cssclass ? notification.cssclass }} bg-{{ notification.type ? notification.type }}"></i>
+                                            </div>
+                                            <span class="title">{{ notification.title }}</span>
+                                            <span class="message">{{ notification.description }}</span>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+
+                                <hr />
+
+                                <div class="text-right">
+                                    <a href="{{ app.request.get('_route') == 'dashboard' ? '#panelreferral' : asset('dashboard#panelreferral') }}"
+                                        class="view-more">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+
+                <span class="separator"></span>
+
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="profile-picture">
+                            <img src="{{ asset('assets/images/!logged-user.jpg') }}" alt="{{ app.user.username }}"
+                                class="img-circle" data-lock-picture="" />
+                        </figure>
+                        <div class="profile-info" data-lock-name="{{ app.user.name }}"
+                            data-lock-email="{{ app.user.email }}">
+                            <span class="name">{{ app.user.name }}</span>
+                            <span class="role">{{ app.user.username }}</span>
+                        </div>
+
+                        <i class="fa custom-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled">
+                            <li class="divider"></li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="{{ path('dashboard') }}"><i
+                                        class="fa fa-dashboard"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" href="{{ path('before_logout') }}"><i
+                                        class="fa fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end: search & user box -->
+        </header>
+        <!-- end: header -->
+
+        <div class="inner-wrapper">
+            <div class="row">
+                <div class="col-md-3 col-lg-1 col-xl-3"></div>
+                <div class="col-md-6 col-lg-10 col-xl-6">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">System data</h2>
+                            <h2 class="panel-subtitle text-warning"><i class="fa fa-warning"></i> Changes made at this
+                                level have effect in the whole software, be
+                                careful</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="tabs tabs-primary">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#adminAction" data-toggle="tab"><i class="fa fa-gears"></i> Admin
+                                                action</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminUsers" data-toggle="tab" class="text-info"><i
+                                                    class="fa fa-users"></i>
+                                                Users</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminCoins" data-toggle="tab" class="text-warning"><i
+                                                    class="fa fa-bitcoin"></i>
+                                                Coins</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminWallet" data-toggle="tab" class="text-secondary"><i
+                                                    class="fa fa-suitcase"></i>
+                                                Wallets</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminDeposit" data-toggle="tab" class="text-success"><i
+                                                    class="fa fa-arrow-up"></i>
+                                                Deposits</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminWithdrawal" data-toggle="tab" class="text-dark"><i
+                                                    class="fa fa-arrow-down"></i> Withdrawals</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminInvestment" data-toggle="tab" class="text-quartenary"><i
+                                                    class="fa fa-money"></i>
+                                                Investments</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminPayment" data-toggle="tab" class="text-info"><i
+                                                    class="fa fa-credit-card"></i>
+                                                Payments</a>
+                                        </li>
+                                        <li>
+                                            <a href="#adminHistory" data-toggle="tab" class="text-danger"><i
+                                                    class="fa fa-history"></i>
+                                                History</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="adminAction" class="tab-pane active">
+                                            <div class="panel">
+                                                <header class="panel-heading">
+                                                    <div class="panel-actions">
+                                                        <a href="#" class="fa fa-caret-down"></a>
+                                                        <a href="#" class="fa fa-times"></a>
+                                                    </div>
+                                                    <h2 class="panel-title">Set values of payment</h2>
+                                                </header>
+                                                <div class="panel-body">
+                                                    <h3 class="text-center">Daily payment</h3>
+                                                    <form action="{{ path('updateinvestments') }}"
+                                                        class="form-horizontal form-bordered" method="POST">
+                                                        <div class="form-group">
+                                                            <div class="form-row">
+                                                                <label class="col-md-3 control-label">Execute daily
+                                                                    payment</label>
+                                                                <div class="col-md-3">
+                                                                    <div class="input-group mb-md">
+                                                                        <input type="text" name="dailypercent"
+                                                                            class="form-control form-control-sm"
+                                                                            pattern="[0-9]+?(\.[0-9]{0,8})?"
+                                                                            title="Only numbers"
+                                                                            placeholder="Type % for today">
+                                                                        <span
+                                                                            class="input-group-addon btn-warning">%</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <button type="submit"
+                                                                        class="btn btn-block btn-warning"
+                                                                        {{ util.lastpaymentdate|date("d/m/Y") == "now"|date("d/m/Y") ? 'disabled' }}>Execute
+                                                                        payment</button>
+                                                                </div>
+                                                                {% if util.lastpaymentdate|date("d/m/Y") == "now"|date("d/m/Y") %}
+                                                                <div class="col-md-4">
+                                                                    <h4 class="text text-danger">Already paid today!
+                                                                    </h4>
+                                                                </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <h3 class="text-center">Payment range</h3>
+                                                    <form action="{{ path('updaterange') }}"
+                                                        class="form-horizontal form-bordered" method="POST">
+                                                        <div class="form-group">
+                                                            <div class="form-row">
+                                                                <label class="col-md-3 control-label">Payment range
+                                                                    %</label>
+                                                                <div class="col-md-2">
+                                                                    <div class="input-group mb-md">
+                                                                        <input type="text" name="minrange"
+                                                                            value="{{ util.downlimit }}"
+                                                                            class="form-control form-control-sm"
+                                                                            pattern="[0-9]+?(\.[0-9]{0,8})?"
+                                                                            title="Only numbers"
+                                                                            placeholder="Type % min">
+                                                                        <span
+                                                                            class="input-group-addon btn-info">%</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-1">and</div>
+                                                                <div class="col-md-2">
+                                                                    <div class="input-group mb-md">
+                                                                        <input type="text" name="maxrange"
+                                                                            value="{{ util.uplimit }}"
+                                                                            class="form-control form-control-sm"
+                                                                            pattern="[0-9]+?(\.[0-9]{0,8})?"
+                                                                            title="Only numbers"
+                                                                            placeholder="Type % max">
+                                                                        <span
+                                                                            class="input-group-addon btn-info">%</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <button type="submit"
+                                                                        class="btn btn-block btn-info">Save range
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="adminUsers" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminUser">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>User</th>
+                                                        <th>Email</th>
+                                                        <th>Name</th>
+                                                        <th>Active <i class="fa fa-question"></i></th>
+                                                        <th>Parent</th>
+                                                        <th>Register date</th>
+                                                        <th class="center">L. Login</th>
+                                                        <th class="center">L. Logout</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for user in users %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ user.username }}</td>
+                                                        <td>{{ user.email }}</td>
+                                                        <td>{{ user.name }}</td>
+                                                        <td class="center">
+                                                            {{ user.active == 0 ? "<i class='fa fa-times text-danger'></i>" : "<i class='fa fa-check text-success'></i>" }}
+                                                        </td>
+                                                        <td>{{ user.referal ? user.referal.username : 'No parent' }}
+                                                        </td>
+                                                        <td class="center">{{ user.createdAt|date("d/m/Y H:i:s") }}</td>
+                                                        <td class="center">{{ user.lastlogin|date("d/m/Y H:i:s") }}</td>
+                                                        <td class="center">{{ user.lastlogout|date("d/m/Y H:i:s") }}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminCoins" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminCoin">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Name</th>
+                                                        <th>Address</th>
+                                                        <th>Web</th>
+                                                        <th>Min. Invest</th>
+                                                        <th>Min. Deposit</th>
+                                                        <th>Min. Withdrawal</th>
+                                                        <th>Withdrawal fee</th>
+                                                        <th>Abbr</th>
+                                                        <th>In wallet</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for coin in coins %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ coin.name }}</td>
+                                                        <td>{{ coin.address[:8] ~ '...' ~ coin.address[coin.address|length - 8:] }}
+                                                        </td>
+                                                        <td>{{ coin.web }}</td>
+                                                        <td>{{ coin.mininvest }}</td>
+                                                        <td>{{ coin.mindeposit }}</td>
+                                                        <td>{{ coin.minwithdraw }}</td>
+                                                        <td>{{ coin.withdrawfee }}</td>
+                                                        <td class="text-center">{{ coin.abbr }}</td>
+                                                        <td>{{ coin.inwallet }}</td>
+                                                        <td>
+                                                            <a type="button" data-coinid="{{ coin.id }}"
+                                                                data-name="{{ coin.name }}" data-abbr="{{ coin.abbr }}"
+                                                                data-address="{{ coin.address }}"
+                                                                data-mininv="{{ coin.mininvest }}"
+                                                                data-mindepo="{{ coin.mindeposit }}"
+                                                                data-minwith="{{ coin.minwithdraw }}"
+                                                                data-withfee="{{ coin.withdrawfee }}"
+                                                                data-web="{{ coin.web }}"
+                                                                data-inwallet="{{ coin.inwallet }}"
+                                                                class="btn btn-xs btn-primary" href="#modalEditCoin"
+                                                                data-toggle="modal"><i class="fa fa-edit"></i> Edit</a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminWallet" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminWallet">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Username</th>
+                                                        <th class="center">BTC</th>
+                                                        <th class="center">ETH</th>
+                                                        <th class="center">USDT</th>
+                                                        <th class="center">LTC</th>
+                                                        <th class="center">XRP</th>
+                                                        <th class="center">BCH</th>
+                                                        <th class="center">TRX</th>
+                                                        <th class="center">DOGE</th>
+                                                        <th class="center">DASH</th>
+                                                        <th class="center">NANO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for wallet in wallets %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ wallet.userid.username }}</td>
+                                                        <td class="center">{{ wallet.btc }}</td>
+                                                        <TD class="center">{{ wallet.eth }}</TD>
+                                                        <TD class="center">{{ wallet.usdt }}</TD>
+                                                        <TD class="center">{{ wallet.ltc }}</TD>
+                                                        <TD class="center">{{ wallet.xrp }}</TD>
+                                                        <TD class="center">{{ wallet.bch }}</TD>
+                                                        <TD class="center">{{ wallet.trx }}</TD>
+                                                        <TD class="center">{{ wallet.doge }}</TD>
+                                                        <TD class="center">{{ wallet.dash }}</TD>
+                                                        <TD class="center">{{ wallet.nano }}</TD>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminDeposit" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminDeposit">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Username</th>
+                                                        <th>Coin</th>
+                                                        <th>Amount</th>
+                                                        <th class="center">Trans. Hash</th>
+                                                        <th class="center">Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for deposit in deposits %}
+                                                    <tr class="gradeX"
+                                                        {{ deposit.status != 'Processing' ? "style='opacity: 0.6;'" : "style='opacity: 1;'" }}>
+                                                        <td></td>
+                                                        <td>{{ deposit.userid.username }}</td>
+                                                        <td>{{ deposit.coin.name }}</td>
+                                                        <td>{{ deposit.amount }}</td>
+                                                        <td class="center">
+                                                            <a href="{{ deposit.coin.web ~ deposit.transhash }}"
+                                                                target="_blank">{{  deposit.transhash[:8] ~ '...' ~ deposit.transhash[deposit.transhash|length - 8:] 
+                                                                }}</a>
+                                                        </td>
+                                                        <td class="center">{{ deposit.date|date("d/m/Y H:i:s") }}</td>
+                                                        <td>{{ deposit.status }}</td>
+                                                        <td>
+                                                            <p>
+                                                                <div class="btn-group">
+                                                                    <a type="button" data-depoid="{{ deposit.id }}"
+                                                                        data-depomin="{{ deposit.coin.mindeposit }}"
+                                                                        data-depoabbr="{{ deposit.coin.name }}"
+                                                                        class="btn btn-xs btn-success"
+                                                                        href="#modalAproveDepo"
+                                                                        data-toggle="modal">Aprove</a>
+                                                                    <a type="button" data-depoid="{{ deposit.id }}"
+                                                                        data-depoabbr="{{ deposit.coin.name }}"
+                                                                        class="btn btn-xs btn-danger"
+                                                                        href="#modalDenyDepo"
+                                                                        data-toggle="modal">Deny</a>
+                                                                </div>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminWithdrawal" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminWithdrawal">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Username</th>
+                                                        <th>Coin</th>
+                                                        <th>In wallet</th>
+                                                        <th>Amount</th>
+                                                        <th>Address</th>
+                                                        <th>Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for withdrawal in withdrawals %}
+                                                    <tr class="gradeX"
+                                                        {{ withdrawal.status != 'Processing' ? "style='opacity: 0.6;'" : "style='opacity: 1;'" }}>
+                                                        <td></td>
+                                                        <td>{{ withdrawal.userid.username }}</td>
+                                                        <td>{{ withdrawal.coin.name }}</td>
+                                                        <td>{{ withdrawal.userid.getWallet().getByCoinAbbr(withdrawal.coin.abbr|upper) }}
+                                                        </td>
+                                                        <td>{{ withdrawal.amount }}</td>
+                                                        <td>
+                                                            <p id="{{ 'withaddress' ~ loop.index }}">
+                                                                {{ withdrawal.address }}</p>
+                                                            <button type="button" class="btn"
+                                                                data-clipboard-action="copy" data-toggle="tooltip"
+                                                                data-placement="left" title="Copy address"
+                                                                onclick="showToastFlash('success', 'Address copied to clipboard')"
+                                                                data-clipboard-target="{{ '#withaddress' ~ loop.index }}">
+                                                                <i class="fa fa-copy"></i></button>
+                                                        </td>
+                                                        <td>{{ withdrawal.date|date("d/m/Y H:i:s") }}</td>
+                                                        <td>{{ withdrawal.status }}</td>
+                                                        <td>
+                                                            <p>
+                                                                <div class="btn-group">
+                                                                    <a type="button" data-withid="{{ withdrawal.id }}"
+                                                                        data-withmin="{{ withdrawal.coin.minwithdraw }}"
+                                                                        data-withabbr="{{ withdrawal.coin.name }}"
+                                                                        data-withaddress="{{ withdrawal.address }}"
+                                                                        data-withamount="{{ withdrawal.amount }}"
+                                                                        class="btn btn-xs btn-success"
+                                                                        href="#modalAproveWith"
+                                                                        data-toggle="modal">Aprove</a>
+                                                                    <a type="button" data-withid="{{ withdrawal.id }}"
+                                                                        data-withabbr="{{ withdrawal.coin.name }}"
+                                                                        class="btn btn-xs btn-danger"
+                                                                        href="#modalDenyWith"
+                                                                        data-toggle="modal">Deny</a>
+                                                                </div>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminInvestment" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminInvestment">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Username</th>
+                                                        <th>Coin</th>
+                                                        <th>Amount</th>
+                                                        <th>Goal</th>
+                                                        <th>Paid</th>
+                                                        <th>Paid percent</th>
+                                                        <th>Date</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for investment in investments %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ investment.userid.username }}</td>
+                                                        <td>{{ investment.coin.name }}</td>
+                                                        <td>{{ investment.amount }}</td>
+                                                        <td>{{ investment.goal }}</td>
+                                                        <td>{{ investment.paid }}</td>
+                                                        <td>{{ investment.paidpercent }}</td>
+                                                        <td>{{ investment.date|date("d/m/Y H:i:s") }}</td>
+                                                        <td>{{ investment.status }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminPayment" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminPayment">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Paid by</th>
+                                                        <th>Percent</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for payment in payments %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ payment.paidby.username }}</td>
+                                                        <td>{{ payment.percent }}</td>
+                                                        <td>{{ payment.date|date("d/m/Y") }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="adminHistory" class="tab-pane">
+                                            <table class="table table-bordered table-striped mb-none"
+                                                id="tableAdminHistory">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Username</th>
+                                                        <th>Title</th>
+                                                        <th>Description</th>
+                                                        <th>Type</th>
+                                                        <th>Cssclass</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for histo in history %}
+                                                    <tr class="gradeX">
+                                                        <td></td>
+                                                        <td>{{ histo.userid[0].username }}</td>
+                                                        <td>{{ histo.title }}</td>
+                                                        <td>{{ histo.description }}</td>
+                                                        <td>{{ histo.type }}</td>
+                                                        <td>{{ histo.cssclass }}</td>
+                                                        <td>{{ histo.date|date("d/m/Y H:i:s") }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'modalaproveDepo.html.twig' %}
+    {% include 'modaldenyDepo.html.twig' %}
+    {% include 'modalaproveWith.html.twig' %}
+    {% include 'modaldenyWith.html.twig' %}
+    {% include 'modaleditCoin.html.twig' %}
+
+    <!-- Vendor -->
+    <script src="{{ asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/nanoscroller/nanoscroller.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+
+    <script src="{{ asset('assets/vendor/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-datatables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/vendor/jquery-datatables-bs3/assets/js/datatables.js') }}"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+    <!-- Theme Custom -->
+    <script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+
+    <script src="{{ asset('assets/stylesheets/sweetalert/sweetalert.min.js') }}"></script>
+
+    <script src="{{ asset('assets/javascripts/clipboard.min.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // get current URL path and assign 'active' class
+            var pathname = window.location;
+            var tag = pathname.toString().split('#')[1];
+            element = document.getElementById(tag);
+            alert(element);
+            if (element) {
+                $('.tabs > .nav-tabs > li').removeClass('active');
+                $('.tabs > .nav-tabs > li > a[href="#' + tag + '"]').parent().addClass('active');
+                $('div.tab-pane').removeClass('active');
+                $(`#${tag}`).addClass('active');
+            }
+        })
+
+        new ClipboardJS('.btn');
+
+        function showToastFlash(label, message) {
+            toastr[label](message, 'Message', {
+                progressBar: true,
+            });
+        }
+
+        (function ($) {
+            'use strict';
+            var datatableInit = function () {
+                //Users table settings
+                var userstable = $('#tableAdminUser').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                userstable.on('order.dt search.dt', function () {
+                    userstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Coins table settings
+                var coinstable = $('#tableAdminCoin').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0, 9]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                coinstable.on('order.dt search.dt', function () {
+                    coinstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Wallets table settings
+                var walletstable = $('#tableAdminWallet').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                walletstable.on('order.dt search.dt', function () {
+                    walletstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Deposits table settings
+                var depositstable = $('#tableAdminDeposit').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0, 7]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                depositstable.on('order.dt search.dt', function () {
+                    depositstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Withdrawals table settings
+                var withdrawalstable = $('#tableAdminWithdrawal').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0, 8]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                withdrawalstable.on('order.dt search.dt', function () {
+                    withdrawalstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Investments table settings
+                var investmentstable = $('#tableAdminInvestment').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                investmentstable.on('order.dt search.dt', function () {
+                    investmentstable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //History table settings
+                var historytable = $('#tableAdminHistory').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                historytable.on('order.dt search.dt', function () {
+                    historytable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+
+                //Payments table settings
+                var paymenttable = $('#tableAdminPayment').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        searchable: false,
+                        targets: [0]
+                    }],
+                    "order": [
+                        [1, "asc"],
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "All"]
+                    ],
+                });
+                paymenttable.on('order.dt search.dt', function () {
+                    paymenttable.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+            };
+
+            $(function () {
+                datatableInit();
+            });
+
+        }).apply(this, [jQuery]);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<div class="modal fade in" id="modalAproveWith" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #eaeceb !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleaprovewith">Aprove deposit</h4>              
+            </div>
+            <form action="{{ path('aprovewith') }}" method="post">
+                <div class="modal-body">
+                    <input id="aprovewithid" name="aprovewithid" type="text" hidden>
+                    <div class="row mt-2 mb-sm">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group text-center">
+                                <canvas id="qr-code"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-sm">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-9">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Withdrawal address</label>
+                                <input id="withaddressmodal" type="text" pattern="[^\s]+"
+                                    class="form-control input-sm" autocomplete="off" required readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-xs btn-warning" data-clipboard-action="copy" data-toggle="tooltip"
+                                data-placement="top" title="Copy address"
+                                onclick="showToastFlash('success', 'Address copied to clipboard')"
+                                data-clipboard-target="#withaddressmodal">
+                                <i class="fa fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="row mt-2 mb-sm">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Exactly amount</label>
+                                <input id="aproamountwith" name="aproamountwith" type="text"
+                                    pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" placeholder="Type amount"
+                                    class="form-control input-sm" autocomplete="off" required>
+                                <span id="aproveminwith"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-success">Done!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#modalAproveWith').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const withid = button.data('withid');
+        const withmin = button.data('withmin');
+        const withabbr = button.data('withabbr');
+        const withaddress = button.data('withaddress');
+        const withamount = button.data('withamount');
+        modal.find('#aprovewithid').val(withid);
+        modal.find('#aproamountwith').val(withamount);
+        modal.find('#withaddressmodal').val(withaddress);
+        modal.find('#aproveminwith').text("Minimum withdrawal: " + withmin);
+        modal.find('#titleaprovewith').text("Aprove withdrawal of " + withabbr);
+
+        var qr;
+       (function () {
+            qr = new QRious({
+                element: document.getElementById('qr-code'),
+                size: 200,
+                value: withaddress
+            });
+        })();
+    });
+
+</script>

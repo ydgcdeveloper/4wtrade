@@ -1,0 +1,91 @@
+<div class="modal fade in" id="modalWithdrawal" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #34495e !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="Title"></h4>  
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="text-center"><img id="imgcoin" class="img-fluid"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 alert-info">
+                        <h4 class="text" id="amount"></h4>
+                    </div>
+                </div>
+                <form action="{{ path('withdraw') }}" method="POST" onsubmit="return checkAmountWith()">
+                    <input id="coin" name="coin" type="text" hidden>
+                    <div class="row mt-md">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Withdrawal amount</label>
+                                <input id="withamount" name="withamount" type="text" pattern="[0-9]+?(\.[0-9]{0,32})?"
+                                    title="Only numbers" placeholder="Type withdrawl amount"
+                                    class="form-control input-sm" autocomplete="off" required>
+                            </div>
+                            <small class="text text-left" id="minwith"></small>
+                        </div>
+                    </div>
+                    <div class="row mb-sm mt-sm">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Withdrawal address</label>
+                                <input id="withaddress" name="withaddress" type="text" pattern="[^\s]+"
+                                    class="form-control input-sm" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-lg">
+                        <div class="col-md-3"></div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-success btn-block">Request withdrawal</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#modalWithdrawal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const coin = button.data('coin');
+        const amount = button.data('amount');
+        const minwith = button.data('minwith');
+        modal.find('#minwith').html("Minimum withdrawl: " + "<span id='min'>" + minwith + "<span>" +
+            " " + coin);
+        modal.find('#amount').html("Available balance: " + "<span id='amo' class='text-success'>" + amount +
+            "<span>" + " " + coin);
+        modal.find('#withamount').val(amount);
+        modal.find('#coin').val(coin);
+        modal.find('#withaddress').attr('placeholder', 'Paste ' + coin + ' address');
+        modal.find('.modal-header #Title').text('Withdraw ' + coin);
+        document.getElementById('imgcoin').src = '/assets/images/cryptos/' + new String(coin).toLowerCase() +
+            '.png';
+    });
+
+    function checkAmountWith() {
+        var investamount = $('#withamount').val();
+        var amo = $('#amo').text();
+        var min = $('#min').text();
+        if (parseFloat(investamount.replace(/ /g, "")) < parseFloat(min.replace(/ /g, ""))) {
+            toastr["warning"]("The minimum is: " + min, 'Warning', {
+                progressBar: true,
+            });
+            return false;
+        }
+        if (parseFloat(investamount.replace(/ /g, "")) > parseFloat(amo.replace(/ /g, ""))) {
+            toastr["warning"]("Not enough balance", 'Warning', {
+                progressBar: true,
+            });
+            return false;
+        }
+    }
+</script>

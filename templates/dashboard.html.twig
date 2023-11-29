@@ -1,0 +1,507 @@
+{% extends 'main.html.twig' %}
+
+{% block content %}
+
+<!-- Specific Page Vendor CSS -->
+<link rel="stylesheet" href="{{ asset('assets/vendor/morris/morris.css') }}" />
+
+
+<section role="main" class="content-body">
+	<header class="page-header">
+		<h2 class="appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">
+			Dashboard</h2>
+
+		<div class="right-wrapper pull-right appear-animation fadeInLeftBig appear-animation-visible"
+			data-appear-animation="fadeInLeftBig">
+			<ol class="breadcrumbs">
+				<li>
+					<a href="{{ path('homepage') }}">
+						<i class="fa fa-home"></i>
+					</a>
+				</li>
+				<li><span>Dashboard</span></li>
+			</ol>
+
+			<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+		</div>
+	</header>
+
+	<!-- start: page -->
+	<div class="row">
+		<div class="col-md-12 appear-animation bounceIn appear-animation-visible"
+		data-appear-animation="bounceIn">
+			<section class="panel">
+				<div class="panel-body bg-warning">
+					<div class="widget-summary">
+						<div class="widget-summary-col widget-summary-col-icon">
+							<div class="summary-icon bg-warning">
+								<i class="fa fa-gift"></i>
+							</div>
+						</div>
+						<div class="widget-summary-col">
+							<div class="summary">
+								<h4 class="title">Today's payment</h4>
+								<div class="info">
+									<strong class="amount">{{ util.lastpayment }}%</strong>
+								</div>
+							</div>
+							<div class="summary-footer">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 appear-animation fadeInLeft appear-animation-visible"
+		data-appear-animation="fadeInLeft">
+			<section class="panel">
+				<div class="panel-body bg-primary">
+					<div class="widget-summary">
+						<div class="widget-summary-col widget-summary-col-icon">
+							<div class="summary-icon bg-warning">
+								<i class="fa fa-dollar"></i>
+							</div>
+						</div>
+						<div class="widget-summary-col">
+							<div class="summary">
+								<h4 class="title">Today's Earnings by Trade</h4>
+								<div class="info">
+									<strong class="amount" id="todaysearnings">$
+										{{ app.user.getTodaysEarnings()|number_format(2, '.', ' ') }}</strong>
+								</div>
+							</div>
+							<div class="summary-footer">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="col-md-6 appear-animation fadeInRight appear-animation-visible"
+		data-appear-animation="fadeInRight">
+			<section class="panel">
+				<div class="panel-body bg-success">
+					<div class="widget-summary">
+						<div class="widget-summary-col widget-summary-col-icon">
+							<div class="summary-icon bg-secondary">
+								<i class="fa fa-usd"></i>
+							</div>
+						</div>
+						<div class="widget-summary-col">
+							<div class="summary">
+								<h4 class="title">Total Earnings</h4>
+								<div class="info">
+									<strong class="amount">$
+										{{ app.user.getTotalearningsInusd()|number_format(2, '.', ' ') }}
+									</strong>
+								</div>
+							</div>
+							<div class="summary-footer">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 appear-animation fadeInLeft appear-animation-visible"
+		data-appear-animation="fadeInLeft">
+			<section class="panel" id="panelreferral">
+				<div class="panel-body bg-info">
+					<div class="widget-summary">
+						<div class="widget-summary-col widget-summary-col-icon">
+							<div class="summary-icon bg-tertiary">
+								<i class="fa fa-users"></i>
+							</div>
+						</div>
+						<div class="widget-summary-col">
+							<div class="summary">
+								<h4 class="title">Referral Benefits</h4>
+								<div class="info">
+									<strong class="amount">$
+										{{ app.user.getReferalearningsInusd()|number_format(2, '.', ' ') }}</strong>
+								</div>
+							</div>
+							<div class="summary-footer">
+								<a href="{{ path('referralP') }}" class="text-dark text-uppercase">(Details)</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="col-md-6 appear-animation fadeInRight appear-animation-visible"
+		data-appear-animation="fadeInRight">
+			<section class="panel">
+				<div class="panel-body bg-secondary">
+					<div class="widget-summary">
+						<div class="widget-summary-col widget-summary-col-icon">
+							<div class="summary-icon bg-tertiary">
+								<i class="fa fa-user"></i>
+							</div>
+						</div>
+						<div class="widget-summary-col">
+							<div class="summary">
+								<h4 class="title">Referrals</h4>
+								<div class="info">
+									<strong class="amount">
+										{{ app.user.getRefusers()|length }}</strong>
+								</div>
+							</div>
+							<div class="summary-footer">
+								<a href="{{ path('referralP') }}" class="text-dark text-uppercase">(Details)</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<section class="panel" id="historypanel">
+				<header class="panel-heading">
+					<div class="panel-actions">
+						<a href="#" class="fa fa-caret-down"></a>
+						<a href="#" class="fa fa-times"></a>
+					</div>
+					<h2 class="panel-title">My history</h2>
+				</header>
+				<div class="panel-body">
+					<div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar"
+						style="height: 280px !important;">
+						<table class="table table-hover mb-none">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Title</th>
+									<th>Description</th>
+									<th>Type</th>
+									<th class="center"><i class="fa fa-calendar"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% set histories = app.user.getHistories()|reverse %}
+								{% for history in histories %}
+								<tr
+									{{ ((history.date < app.user.lastlogin and history.date > app.user.lastlogout) or (history.date > app.user.lastlogin and history.date > app.user.lastlogout)) ? "style='opacity: 1;font-weight:bolder;'" : "style='opacity: 0.8;'" }}>
+									<td>{{ loop.index }}</td>
+									<td>{{ history.title }}</td>
+									<td>{{ history.description }}</td>
+									<td class="text-center">
+										<span class="badge bg-{{ history.type ? history.type }}">
+											<i class="fa {{ history.cssclass ? history.cssclass }}"></i>
+										</span>
+									</td>
+									<td class="center">{{ history.date|date("m/d/Y H:i:s") }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- <div class="col-md-6">
+			<section class="panel">
+				<header class="panel-heading">
+					<div class="panel-actions">
+						<a href="#" class="fa fa-caret-down"></a>
+						<a href="#" class="fa fa-times"></a>
+					</div>
+					<h2 class="panel-title">Crypto Market</h2>
+				</header>
+				<div class="panel-body">
+					<div class="owl-carousel" data-plugin-carousel
+						data-plugin-options='{ "autoPlay": 3000, "items": 1,  "navigation": false, "pagination": false }'>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/bitcoin/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/btc@2x.png') }}" alt="BTC">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Bitcoin(BTC)</h5>
+									<h6 class="crypto-prices" id="price-BTC"> </h6>
+									<h6 class="crypto-changes" id="change-BTC"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/ethereum/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/eth@2x.png') }}" alt="ETH">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Ethereum(ETH)</h5>
+									<h6 class="crypto-prices" id="price-ETH">
+										</h5>
+										<h6 class="crypto-changes" id="change-ETH"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/tether/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/usdt@2x.png') }}" alt="USDT">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Tether(USDT)</h5>
+									<h6 class="crypto-prices" id="price-USDT">
+										</h5>
+										<h6 class="crypto-changes" id="change-USDT"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/litecoin/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/ltc@2x.png') }}" alt="LTC">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Litecoin(LTC)</h5>
+									<h6 class="crypto-prices" id="price-LTC">
+										</h5>
+										<h6 class="crypto-changes" id="change-LTC"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/xrp/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/xrp@2x.png') }}" alt="XRP">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">XRP(XRP)</h5>
+									<h6 class="crypto-prices" id="price-XRP">
+										</h5>
+										<h6 class="crypto-changes" id="change-XRP"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/bitcoin-cash/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/bch@2x.png') }}" alt="BCH">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Bitcoin Cash(BCH)
+									</h5>
+									<h6 class="crypto-prices" id="price-BCH">
+										</h5>
+										<h6 class="crypto-changes" id="change-BCH"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/tron/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/trx@2x.png') }}" alt="TRX">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Tron(TRX)</h5>
+									<h6 class="crypto-prices" id="price-TRX">
+										</h5>
+										<h6 class="crypto-changes" id="change-TRX"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/dogecoin/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/doge@2x.png') }}" alt="DOGE">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Dogecoin(DOGE)</h5>
+									<h6 class="crypto-prices" id="price-DOGE">
+										</h5>
+										<h6 class="crypto-changes" id="change-DOGE"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/dash/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/dash@2x.png') }}" alt="DASH">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Dash(DASH)</h5>
+									<h6 class="crypto-prices" id="price-DASH">
+										</h5>
+										<h6 class="crypto-changes" id="change-DASH"> </h6>
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="panel">
+								<header class="panel-heading center">
+									<a href="https://coinmarketcap.com/es/currencies/nano/" target="_blank"
+										rel="noopener">
+										<img src="{{ asset('assets/images/cryptos/nano@2x.png') }}" alt="NANO">
+									</a>
+								</header>
+								<div class="panel-body bg-dark">
+									<h5 style="border-bottom: 1px solid rgb(205, 221, 221);">Nano(NANO)</h5>
+									<h6 class="crypto-prices" id="price-NANO"> </h6>
+									<h6 class="crypto-changes" id="change-NANO"> </h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div> -->
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<section class="panel">
+				<header class="panel-heading">
+					<div class="panel-actions">
+						<a href="#" class="fa fa-caret-down"></a>
+						<a href="#" class="fa fa-times"></a>
+					</div>
+					<h2 class="panel-title">Payments</h2>
+					<p class="panel-subtitle"> </p>
+				</header>
+				<div class="panel-body" id="morrisLine" data-payments="{{ payments }}">
+
+				</div>
+			</section>
+		</div>
+	</div>
+
+</section>
+
+<!-- Specific Page Vendor -->
+<script src="{{ asset('assets/vendor/raphael/raphael.js') }}"></script>
+<script src="{{ asset('assets/vendor/morris/morris.js') }}"></script>
+
+<script>	
+	function fillCharts() {
+		var morrisLineData = [],
+			morrisLines = [],
+			payments = $('#morrisLine').data('payments');
+		for (i = 0; i < payments.length; i++) {
+			var json = JSON.parse(payments[i]);
+			var obj = {
+				date: json.date.date.split(' ')[0],
+				percent: json.percent,
+			}
+			morrisLines.push(obj);
+
+			if (i != payments.length - 1) {
+				if (json.date.date.split(' ')[0].split('-')[1] < JSON.parse(payments[i + 1]).date.date.split(' ')[0].split(
+						'-')[1]) {
+					morrisLineData.push(morrisLines);
+					morrisLines = [];
+				}
+			} else if (i == payments.length - 1) {
+				if (json.date.date.split(' ')[0].split('-')[1] > JSON.parse(payments[i - 1]).date.date.split(' ')[0].split(
+						'-')[1]) {
+					morrisLines = [];
+					morrisLines.push(obj)
+					morrisLineData.push(morrisLines);
+				} else {
+					morrisLineData.push(morrisLines);
+				}
+			}
+		}
+
+		for (i = 0; i < morrisLineData.length; i++) {
+			var now = new Date();
+			var month = new Date(morrisLineData[i][0].date);
+			var monthname = month.toLocaleString('en-US', {
+				month: 'long',
+				timeZone: 'UTC'
+			});
+
+			sum = 0;
+			morris = morrisLineData[i];
+			size = morris.length;
+			for (j = 0; j < size; j++) {
+				sum += morris[j].percent;
+			}
+
+			average = sum / size;
+
+			$('#morrisLine').append(								
+				`<section class='panel ${month.getMonth() + 1 == now.getMonth() ? 'panel-success' : 'panel-info'}'>
+					<header class='panel-heading'>
+						<div class='panel-actions'>
+							<a href='#' class='fa fa-times'></a>
+						</div>
+						<h2 class='panel-title'>${monthname.toUpperCase()}</h2>
+					</header>
+					<div class='panel-body'>
+						<div class='row'>
+							<div class='col-md-9'>
+								<div class='chart chart-md' id='morrisPLine${i}'></div>
+							</div>
+							<div class='col-md-3'>
+								<h4 style='color:#0088cc' class='well'>Average: ${average.toFixed(2)}%</h4>
+							</div>	
+						</div>
+					</div>
+				</section>`				
+			);
+
+			Morris.Line({
+				resize: true,
+				element: `morrisPLine${i}`,
+				data: morrisLineData[i],
+				xkey: 'date',
+				ykeys: ['percent'],
+				ymax: "{{ util.uplimit }}",
+				ymin: "{{ util.downlimit }}",
+				labels: ['Payment'],
+				postUnits: '%',
+				hideHover: true,
+				lineColors: ['#0088cc'],
+				xLabels: 'day',
+				xLabelFormat: function (x) {
+					return x.toString().split(' ')[2];
+				},
+				goals: [2.0, 3.0, 4.0, 5.0, 6.0],
+				goalStrokeWidth: 2,
+				goalLineColors: ['#D2222D', '#f58634', '#ffcc29', '#00af91', '#238823']
+			});
+		}
+	}
+
+	fillCharts();	
+</script>
+
+{% for label, flash_message in app.session.flashBag.all %}
+
+{% endfor %}
+
+{% endblock %}

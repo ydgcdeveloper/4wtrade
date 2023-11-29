@@ -1,0 +1,80 @@
+<div class="modal fade in" id="modalWallet" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #34495e !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="Title"></h4>
+
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="text-center"><img id="imgcoin" class="img-fluid"></div>                   
+                </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8 alert-info">
+                            <h4 class="text" id="amount"></h4>
+                        </div>
+                    </div>
+                <form action="{{ path('invest') }}" method="POST" onsubmit="return checkAmountDepo()">
+                    <input id="coin" name="coin" type="text" hidden>
+                    <div class="row mb-sm mt-md">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Invest amount</label>
+                                <input id="investamount" name="investamount" type="text"
+                                    pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers"
+                                    placeholder="Type invest amount" class="form-control input-sm" autocomplete="off"
+                                    required>
+                            </div>
+                            <small class="text text-left" id="mininvest"></small>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-3"></div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-success btn-block">Invest now</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#modalWallet').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const coin = button.data('coin');
+        const amount = button.data('amount');
+        const mininvest = button.data('mininvest');
+        modal.find('#mininvest').html("Minimum of investment: " + "<span id='min'>" + mininvest + "<span>" +
+            " " + coin);
+        modal.find('#amount').html("Available balance: " + "<span id='amo' class='text-success'>" + amount + "<span>" + " " + coin);
+        modal.find('#investamount').val(amount);
+        modal.find('#coin').val(coin);
+        modal.find('.modal-header #Title').text('Invest ' + coin);
+        document.getElementById('imgcoin').src = '/assets/images/cryptos/' + new String(coin).toLowerCase() + '.png';
+    });
+
+    function checkAmountDepo() {
+        var investamount = $('#investamount').val();
+        var amo = $('#amo').text();
+        var min = $('#min').text();
+        if (parseFloat(investamount.replace(/ /g, "")) < parseFloat(min.replace(/ /g, ""))) {
+            toastr["warning"]("The minimum is: " + min, 'Warning', {
+                progressBar: true,
+            });
+            return false;
+        }
+        if (parseFloat(investamount.replace(/ /g, "")) > parseFloat(amo.replace(/ /g, ""))) {
+            toastr["warning"]("Not enough balance", 'Warning', {
+                progressBar: true,
+            });
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,446 @@
+{% extends 'main.html.twig' %}
+
+{% block content %}
+
+<section role="main" class="content-body">
+    <header class="page-header ">
+        <h2 class="appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">Wallet</h2>
+
+        <div class="right-wrapper pull-right appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="{{ path('homepage') }}">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Finance</span></li>
+                <li><span>Wallet</span></li>
+            </ol>
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            {% set wallet = app.user.getWallet()  %}
+            {% if wallet != null %}
+            <div class="panel appear-animation fadeInUpBig appear-animation-visible" data-appear-animation="fadeInUpBig">
+                <div class="panel-body" style="background-color: rgb(6, 6, 78);">
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getBtc() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/btc@2x.png') }}" alt="BTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[0].getName() }}({{ coins[0].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getBtc()|number_format(8, '.', ' ') }}
+                                        </span>
+                                        <span class="text-sm">BTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[0].getMininvest() }} BTC
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="BTC"
+                                        data-amount="{{ wallet.getBtc()|number_format(8, '.', ' ') }}"
+                                        data-mininvest="{{ coins[0].getMininvest() }}" href="#modalWallet">Invest
+                                        BTC</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getEth() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/eth@2x.png') }}" alt="ETH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[1].getName() }}({{ coins[1].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getEth()|number_format(5, '.', ' ') }}
+                                        </span><span>ETH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[1].getMininvest() }} ETH
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="ETH"
+                                        data-amount="{{ wallet.getEth()|number_format(5, '.', ' ') }}"
+                                        data-mininvest="{{ coins[1].getMininvest() }}" href="#modalWallet">Invest
+                                        ETH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getUsdt() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/usdt@2x.png') }}" alt="USDT">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[2].getName() }}({{ coins[2].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getUsdt()|number_format(2, '.', ' ') }}
+                                        </span><span>USDT</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[2].getMininvest() }} USDT
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="USDT"
+                                        data-amount="{{ wallet.getUsdt()|number_format(2, '.', ' ') }}"
+                                        data-mininvest="{{ coins[2].getMininvest() }}" href="#modalWallet">Invest
+                                        USDT</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getLtc() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/ltc@2x.png') }}" alt="LTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[3].getName() }}({{ coins[3].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getLtc()|number_format(4, '.', ' ') }}
+                                        </span><span>LTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[3].getMininvest() }} LTC
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="LTC"
+                                        data-amount="{{ wallet.getLtc()|number_format(4, '.', ' ') }}"
+                                        data-mininvest="{{ coins[3].getMininvest() }}" href="#modalWallet">Invest
+                                        LTC</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getXrp() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/xrp@2x.png') }}" alt="XRP">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[4].getName() }}({{ coins[4].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getXrp()|number_format(2, '.', ' ') }}
+                                        </span><span>XRP</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[4].getMininvest() }} XRP
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="XRP"
+                                        data-amount="{{ wallet.getXrp()|number_format(2, '.', ' ') }}"
+                                        data-mininvest="{{ coins[4].getMininvest() }}" href="#modalWallet">Invest
+                                        XRP</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getBch() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/bch@2x.png') }}" alt="BCH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[5].getName() }}({{ coins[5].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getBch()|number_format(5, '.', ' ') }}
+                                        </span><span>BCH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[5].getMininvest() }} BCH
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="BCH"
+                                        data-amount="{{ wallet.getBch()|number_format(5, '.', ' ') }}"
+                                        data-mininvest="{{ coins[5].getMininvest() }}" href="#modalWallet">Invest
+                                        BCH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getTrx() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/trx@2x.png') }}" alt="TRX">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[6].getName() }}({{ coins[6].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getTrx()|number_format(2, '.', ' ') }}
+                                        </span><span>TRX</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[6].getMininvest() }} TRX
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="TRX"
+                                        data-amount="{{ wallet.getTrx()|number_format(2, '.', ' ') }}"
+                                        data-mininvest="{{ coins[6].getMininvest() }}" href="#modalWallet">Invest
+                                        TRX</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getDoge() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/doge@2x.png') }}" alt="DOGE">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[7].getName() }}({{ coins[7].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getDoge()|number_format(2, '.', ' ') }}
+                                        </span><span>DOGE</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[7].getMininvest() }} DOGE
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="DOGE"
+                                        data-amount="{{ wallet.getDoge()|number_format(2, '.', ' ') }}"
+                                        data-mininvest="{{ coins[7].getMininvest() }}" href="#modalWallet">Invest
+                                        DOGE</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getDash() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/dash@2x.png') }}" alt="DASH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[8].getName() }}({{ coins[8].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getDash()|number_format(5, '.', ' ') }}
+                                        </span><span>DASH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[8].getMininvest() }} DASH
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="DASH"
+                                        data-amount="{{ wallet.getDash()|number_format(5, '.', ' ') }}"
+                                        data-mininvest="{{ coins[8].getMininvest() }}" href="#modalWallet">Invest
+                                        DASH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-info panel-crypto {{ wallet.getNano() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-info">
+                                        <img src="{{ asset('assets/images/cryptos/nano@2x.png') }}" alt="NANO">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[9].getName() }}({{ coins[9].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-primary">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowal">
+                                            {{ wallet.getNano()|number_format(4, '.', ' ') }}
+                                        </span><span>NANO</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of investment: {{ coins[9].getMininvest() }} NANO
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="NANO"
+                                        data-amount="{{ wallet.getNano()|number_format(4, '.', ' ') }}"
+                                        data-mininvest="{{ coins[9].getMininvest() }}" href="#modalWallet">Invest
+                                        NANO</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <section class="panel appear-animation fadeInRight appear-animation-visible" data-appear-animation="fadeInRight">
+
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>
+
+                    <h2 class="panel-title">My investments</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed mb-none">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cryptocurrency</th>
+                                    <th>Amount</th>
+                                    <th>Paid</th>
+                                    <th>Paid %</th>
+                                    <th>Goal</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set investments = app.user.getInvestments() %}
+                                {% for investment in investments %}
+                                <tr style="opacity: '{{investment.status == 0 ? 0.9 : 1}}';">
+                                    <td>{{ loop.index }}</td>
+                                    <td class="text-center">
+                                        <img src="{{ asset("assets/images/cryptos/" ~ investment.coin.abbr|lower ~ ".png") }}"
+                                            alt="{{ investment.coin.abbr|upper }}" data-toggle="tooltip"
+                                            data-placement="top" title="{{ investment.coin.abbr|upper }}">
+                                    </td>
+                                    <td>{{ investment.amount }}</td>
+                                    <td>{{ investment.paid }}</td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm m-md active">
+                                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                                aria-valuenow="{{ investment.paidpercent }}" aria-valuemin="0"
+                                                aria-valuemax="200" data-toggle="tooltip"
+                                                data-placement="top" title="{{ investment.paidpercent|number_format(2, '.', ' ') }}%" style="width: {{ investment.paidpercent / 2 }}%;" >
+                                                {{ investment.paidpercent|number_format(2, '.', ' ') }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ investment.goal }}</td>
+                                    <td class="text-center img-fluid">{{ investment.date|date("m/d/Y") }}</td>
+                                    <td class="text-center">
+                                        {% if investment.status == 1 %}
+                                        <i class="fa fa-circle-o-notch fa-spin text-info" data-toggle="tooltip" data-placement="top"
+                                            title="Active"></i>
+                                        {% else %}
+                                        <i class="fa fa-times text-danger" data-toggle="tooltip" data-placement="top"
+                                            title="Finished"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script>
+        const crypto = async () => {
+            try {
+                var usds = $('.cryptowal');
+                for (i = 0; i < usds.length; i++) {
+                    const url =
+                        "https://min-api.cryptocompare.com/data/price?fsym=" + $(usds[i]).next().text() +
+                        "&tsyms=USD";
+                    const resp = await fetch(url);
+                    const res = await resp.json();
+                    var numero = parseFloat($(usds[i]).text().replace(/ /g, "")) * parseFloat(res.USD);
+                    $(usds[i]).parent().next().html('<span>$' + numero.toFixed(2) + '</span>');
+                }
+            } catch (error) {
+                if (new String(error).includes('NetworkError')) {
+                  /*  toastr["error"]("Connection error", 'Error', {
+                        progressBar: true,
+                    });*/
+                }
+                return error;
+            }
+        };
+
+        crypto();
+        
+    </script>
+
+</section>
+
+{% include 'modalwallet.html.twig' %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
+<script src="{{ asset('assets/bootstrap/bootstrap.min.js') }}"></script>
+{% endblock %}

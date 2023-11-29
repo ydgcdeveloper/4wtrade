@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="fixed">
+
+<head>
+	<!-- Basic -->
+	<meta charset="UTF-8">
+
+	<title>
+		{% block title %}
+		4WTrade - Confirm Email
+		{% endblock %}
+	</title>
+
+	<meta name="keywords" content="4WTrade" />
+	<meta name="description" content="4WTrade - Make this wise investment">
+	<meta name="author" content="4WTrade.com">
+
+	<link rel="icon" href="{{ asset('assets/pngwing.com.png') }}" type="image/png" />
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<!-- Web Fonts  -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+		rel="stylesheet" type="text/css">
+
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.css') }}" />
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme.css') }}" />
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/skins/default.css') }}" />
+
+	<!-- Theme Custom CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+
+	<!-- Head Libs -->
+	<script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/toastr.min.css') }}">
+
+</head>
+
+<body>
+	<!-- start: page -->
+	<section class="body-sign">
+		<div class="center-sign">
+			<a href="/" class="logo pull-left">
+				<img src="{{ asset('assets/images/logo.png') }}" height="54" alt="4WTrade" />
+			</a>
+
+			<div class="panel panel-sign">
+				<div class="panel-title-sign mt-xl text-right">
+					<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Confirm email</h2>
+				</div>
+				<div class="panel-body">
+                    <div class="text-center">
+                        <div class="alert alert-{{ status }}">{{ notice }}</div>
+                        {% if status == 'success'  %}
+                        <a href="{{ path('app_login') }}" style="color: aliceblue;" class="btn btn-primary">
+                            Go to login <i class="fa fa-sign-in"></i></a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+
+			<p class="text-center text-muted mt-md mb-md">&copy; Copyright 2021. All rights reserved. </p>
+		</div>
+	</section>
+	<!-- end: page -->
+
+	<!-- Vendor -->
+	<script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.js') }}"></script>
+	<script src="{{ asset('assets/vendor/nanoscroller/nanoscroller.js') }}"></script>
+	<script src="{{ asset('assets/vendor/magnific-popup/magnific-popup.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+
+
+	<!-- Theme Base, Components and Settings -->
+	<script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+	<!-- Theme Custom -->
+	<script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+	<!-- Theme Initialization Files -->
+	<script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+
+	<script src="{{ asset('assets/javascripts/toastr.min.js') }}"></script>
+
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+
+	{% for label, messages in app.flashes %}
+	{% for message in messages %}
+	<script>
+		toastr['{{ label }}']('{{ message }}', 'Message', {
+			progressBar: true,
+		});
+	</script>
+	{% endfor %}
+	{% endfor %}
+
+
+
+</body>
+
+</html>

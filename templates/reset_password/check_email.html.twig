@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Password Reset Email Sent{% endblock %}
+
+{% block body %}
+    <p>
+        An email has been sent that contains a link that you can click to reset your password.
+        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html class="fixed">
+
+<head>
+	<!-- Basic -->
+	<meta charset="UTF-8">
+
+	<title>
+		{% block title %}
+		4WTrade - Login
+		{% endblock %}
+	</title>
+
+	<meta name="keywords" content="4WTrade" />
+	<meta name="description" content="4WTrade - Make this wise investment">
+	<meta name="author" content="4WTrade.com">
+
+	<link rel="icon" href="{{ asset('assets/logoicon.png') }}" type="image/png" />
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<!-- Web Fonts  -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+		rel="stylesheet" type="text/css">
+
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.css') }}" />
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme.css') }}" />
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/skins/default.css') }}" />
+
+	<!-- Theme Custom CSS -->
+	<link rel="stylesheet" href="{{ asset('assets/stylesheets/theme-custom.css') }}">
+
+	<!-- Head Libs -->
+	<script src="{{ asset('assets/vendor/modernizr/modernizr.js') }}"></script>
+
+
+</head>
+
+<body>
+	<!-- start: page -->
+
+    <p>
+        An email has been sent that contains a link that you can click to reset your password.
+        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+
+	
+	<!-- Vendor -->
+	<script src="{{ asset('assets/vendor/jquery/jquery.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
+	<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.js') }}"></script>
+	<script src="{{ asset('assets/vendor/nanoscroller/nanoscroller.js') }}"></script>
+	<script src="{{ asset('assets/vendor/magnific-popup/magnific-popup.js') }}"></script>
+	<script src="{{ asset('assets/vendor/jquery-placeholder/jquery.placeholder.js') }}"></script>
+
+
+	<!-- Theme Base, Components and Settings -->
+	<script src="{{ asset('assets/javascripts/theme.js') }}"></script>
+
+	<!-- Theme Custom -->
+	<script src="{{ asset('assets/javascripts/theme.custom.js') }}"></script>
+
+	<!-- Theme Initialization Files -->
+	<script src="{{ asset('assets/javascripts/theme.init.js') }}"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<div class="modal fade in" id="modalAproveDepo" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #eaeceb !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleaprovedepo">Aprove deposit</h4>
+            </div>
+            <form action="{{ path('aprovedepo') }}" method="post">
+                <div class="modal-body">
+                    <input id="depoid" name="depoid" type="text" hidden>
+                    <div class="row mt-2 mb-sm">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Exactly amount</label>
+                                <input id="aproamount" name="aproamount" type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers"
+                                    placeholder="Type amount" class="form-control input-sm"
+                                    autocomplete="off" required>
+                                    <span id="aprovemindepo"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-success">Aprove</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#modalAproveDepo').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const depoid = button.data('depoid');
+        const depomin = button.data('depomin');
+        const depoabbr = button.data('depoabbr');
+        modal.find('#depoid').val(depoid);
+        modal.find('#aprovemindepo').text("Minimum deposit: " + depomin);
+        modal.find('#titleaprovedepo').text("Aprove deposit of " + depoabbr);
+    });
+</script>

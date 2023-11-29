@@ -1,0 +1,432 @@
+{% extends 'main.html.twig' %}
+
+{% block content %}
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2 class="appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">Deposit</h2>
+
+        <div class="right-wrapper pull-right appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="{{ path('homepage') }}">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Finance</span></li>
+                <li><span>Deposit</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            {% set wallet = app.user.getWallet()  %}
+            {% if wallet != null %}
+            <div class="panel appear-animation fadeInUpBig appear-animation-visible" data-appear-animation="fadeInUpBig">
+                <div class="panel-body" style="background-color: darkblue;">
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/btc@2x.png') }}" alt="BTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[0].getName() }}({{ coins[0].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getBtc()|number_format(8, '.', ' ') }}
+                                        </span><span>BTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[0].getMindeposit() }} BTC
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="BTC"
+                                        data-address="{{ coins[0].getAddress() }}"
+                                        data-mindepo="{{ coins[0].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/eth@2x.png') }}" alt="ETH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[1].getName() }}({{ coins[1].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getEth()|number_format(5, '.', ' ') }}
+                                        </span><span>ETH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[1].getMindeposit() }} ETH
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="ETH"
+                                        data-address="{{ coins[1].getAddress() }}"
+                                        data-mindepo="{{ coins[1].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/usdt@2x.png') }}" alt="USDT">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[2].getName() }}({{ coins[2].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getUsdt()|number_format(2, '.', ' ') }}                                 
+                                        </span><span>USDT</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[2].getMindeposit() }} USDT
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="USDT"
+                                        data-address="{{ coins[2].getAddress() }}"
+                                        data-mindepo="{{ coins[2].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/ltc@2x.png') }}" alt="LTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[3].getName() }}({{ coins[3].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getLtc()|number_format(4, '.', ' ') }}                                      
+                                        </span><span>LTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[3].getMindeposit() }} LTC
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="LTC"
+                                        data-address="{{ coins[3].getAddress() }}"
+                                        data-mindepo="{{ coins[3].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/xrp@2x.png') }}" alt="XRP">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[4].getName() }}({{ coins[4].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getXrp()|number_format(2, '.', ' ') }}                                      
+                                        </span><span>XRP</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[4].getMindeposit() }} XRP
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="XRP"
+                                        data-address="{{ coins[4].getAddress() }}"
+                                        data-mindepo="{{ coins[4].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/bch@2x.png') }}" alt="BCH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[5].getName() }}({{ coins[5].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getBch()|number_format(5, '.', ' ') }}                                         
+                                        </span><span>BCH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[5].getMindeposit() }} BCH
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="BCH"
+                                        data-address="{{ coins[5].getAddress() }}"
+                                        data-mindepo="{{ coins[5].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/trx@2x.png') }}" alt="TRX">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[6].getName() }}({{ coins[6].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getTrx()|number_format(2, '.', ' ') }}                                    
+                                        </span><span>TRX</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[6].getMindeposit() }} TRX
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="TRX"
+                                        data-address="{{ coins[6].getAddress() }}"
+                                        data-mindepo="{{ coins[6].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/doge@2x.png') }}" alt="DOGE">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[7].getName() }}({{ coins[7].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getDoge()|number_format(2, '.', ' ') }}                                      
+                                        </span><span>DOGE</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[7].getMindeposit() }} DOGE
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="DOGE"
+                                        data-address="{{ coins[7].getAddress() }}"
+                                        data-mindepo="{{ coins[7].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/dash@2x.png') }}" alt="DASH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[8].getName() }}({{ coins[8].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getDash()|number_format(5, '.', ' ') }}                                    
+                                        </span><span>DASH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[8].getMindeposit() }} DASH
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="DASH"
+                                        data-address="{{ coins[8].getAddress() }}"
+                                        data-mindepo="{{ coins[8].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/nano@2x.png') }}" alt="NANO">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[9].getName() }}({{ coins[9].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body bg-info">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptodep">
+                                            {{ wallet.getNano()|number_format(4, '.', ' ') }}                                
+                                        </span><span>NANO</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum of deposit: {{ coins[9].getMindeposit() }} NANO
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-success btn-sm btn-block" data-toggle="modal" data-coin="NANO"
+                                        data-address="{{ coins[9].getAddress() }}"
+                                        data-mindepo="{{ coins[9].getMindeposit() }}" href="#modalDeposit">Deposit
+                                        NOW</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+            <section class="panel appear-animation fadeInRight appear-animation-visible" data-appear-animation="fadeInRight">
+
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>
+
+                    <h2 class="panel-title">My deposits</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed mb-none">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cryptocurrency</th>
+                                    <th>Amount</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Trans. Hash</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set deposits = app.user.getDeposits() %}
+                                {% for deposit in deposits %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="text-center">
+                                        <img src="{{ asset("assets/images/cryptos/" ~ deposit.coin.abbr|lower ~ ".png") }}" alt="{{ deposit.coin.abbr|upper }}" data-toggle="tooltip" data-placement="top"
+                                        title="{{ deposit.coin.abbr|upper }}">
+                                    </td>
+                                    <td>{{ deposit.amount }}</td>
+                                    <td>{{ deposit.date|date("m/d/Y") }}</td>
+                                    <td>{{ deposit.transhash }}</td>
+                                    <td class="text-center">
+                                        {% if deposit.status == 'Processing' %}
+                                        <i class="fa fa-spinner fa-spin" data-toggle="tooltip" data-placement="top"
+                                            title="{{ deposit.status}}"></i>
+                                        {% elseif deposit.status == 'Done' %}
+                                        <i class="fa fa-check text-success" data-toggle="tooltip" data-placement="top"
+                                            title="{{ deposit.status}}"></i>
+                                        {% else %}
+                                        <i class="fa fa-times text-danger" data-toggle="tooltip" data-placement="top"
+                                            title="{{ deposit.status}}"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script>
+        const crypto = async () => {
+            try {
+                var usds = $('.cryptodep');
+                for (i = 0; i < usds.length; i++) {
+                    const url =
+                        "https://min-api.cryptocompare.com/data/price?fsym=" + $(usds[i]).next().text() +
+                        "&tsyms=USD";
+                    const resp = await fetch(url);
+                    const res = await resp.json();
+                    var numero = parseFloat($(usds[i]).text().replace(/ /g, "")) * parseFloat(res.USD);
+                    $(usds[i]).parent().next().html('<span>$' + numero.toFixed(2) + '</span>');
+                }
+            } catch (error) {
+                if (new String(error).includes('NetworkError')) {
+                 /*   toastr["error"]("Connection error", 'Error', {
+                        progressBar: true,
+                    });*/
+                }
+                return error;
+            }
+        };
+
+        crypto();
+    </script>
+
+</section>
+
+{% include 'modaldeposit.html.twig' %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
+<script src="{{ asset('assets/bootstrap/bootstrap.min.js') }}"></script>
+{% endblock %}

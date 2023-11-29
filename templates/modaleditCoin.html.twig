@@ -1,0 +1,103 @@
+<div class="modal fade in" id="modalEditCoin" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #2b415d !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleeditcoin">Edit coin</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('editcoin') }}" method="POST">
+                    <input id="editcoinid" name="editcoinid" type="text" hidden>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="coinname" class="col-form-label col-form-label-sm">Name</label>
+                            <input type="text" pattern="[A-Za-z ]{1,32}" maxlength="32" minlength="3" id="coinname"
+                                name="coinname" class="form-control form-control-sm" required autofocus>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="coinabbr" class="col-form-label col-form-label-sm">Abbr</label>
+                            <input type="text" pattern="[A-Za-z]{1,32}" maxlength="32" id="coinabbr" name="coinabbr"
+                                class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="coinaddress" class="col-form-label col-form-label-sm">Address</label>
+                            <input type="text" pattern="[^\s]+" id="coinaddress" name="coinaddress"
+                                class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="mininv" class="col-form-label col-form-label-sm">Min. investment</label>
+                            <input type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" id="mininv"
+                                name="mininv" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mindepo" class="col-form-label col-form-label-sm">Min. deposit</label>
+                            <input type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" id="mindepo"
+                                name="mindepo" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="minwith" class="col-form-label col-form-label-sm">Min. withdrawal</label>
+                            <input type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" id="minwith"
+                                name="minwith" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="withfee" class="col-form-label col-form-label-sm">Withdrawal fee</label>
+                            <input type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" id="withfee"
+                                name="withfee" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="web" class="col-form-label col-form-label-sm">Web Site</label>
+                            <input type="text" pattern="https?://.+" id="web" name="web" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inwallet" class="col-form-label col-form-label-sm">In wallet</label>
+                            <input type="text" pattern="[0-9]+?(\.[0-9]{0,32})?" title="Only numbers" id="inwallet"
+                                name="inwallet" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-success">Done!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#modalEditCoin').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const editcoinid = button.data('coinid');
+        const name = button.data('name');
+        const abbr = button.data('abbr');
+        const address = button.data('address');
+        const mininv = button.data('mininv');
+        const mindepo = button.data('mindepo');
+        const minwith = button.data('minwith');
+        const withfee = button.data('withfee');
+        const web = button.data('web');
+        const inwallet = button.data('inwallet');
+        modal.find('#coinname').val(name);
+        modal.find('#coinabbr').val(abbr);
+        modal.find('#mininv').val(mininv);
+        modal.find('#mindepo').val(mindepo);
+        modal.find('#minwith').val(minwith);
+        modal.find('#withfee').val(withfee);
+        modal.find('#coinaddress').val(address);
+        modal.find('#editcoinid').val(editcoinid);
+        modal.find('#web').val(web);
+        modal.find('#inwallet').val(inwallet);
+        modal.find('#titleeditcoin').text("Edit " + name);
+
+    });
+</script>

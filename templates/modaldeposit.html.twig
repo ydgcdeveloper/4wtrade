@@ -1,0 +1,82 @@
+<div class="modal fade in" id="modalDeposit" tabindex="-1" role="dialog" aria-labelledby="Title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="background: #34495e !important;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="Title"></h4>    
+            </div>
+            <div class="modal-body">
+
+                <div class="row justify-content-center">
+                    <div class="col-3 text-center"><img id="imgcoin" class="img-fluid"></div>
+                    <div class="col-6 text-center" id="qrdiv">
+                        <img id="qrcoin" class="img-fluid" style="width: 200px; height: 200px;">
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="form-group text-center">
+                            <label class="text-warning">Address</label>
+                            <div class="input-group">
+                                <input type="text" id="address" readonly class="form-control"></input>
+                                <span class="input-group-addon copied" data-clipboard-action="copy"
+                                    data-toggle="tooltip" data-placement="top" title="Copy address"
+                                    onclick="showToastFlash('success', 'Address copied to clipboard')"
+                                    data-clipboard-target="#address">
+                                    <i class="fa fa-copy"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <small id="messsend" class="text text-left"></small>
+                    </div>
+                </div>
+
+                <form action="{{ path('deposit') }}" method="post">
+                    <input id="coin" name="coin" type="text" hidden>
+                    <div class="row mt-2 mb-sm">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="form-group text-center">
+                                <label class="text-warning">Transaction Hash</label>
+                                <input id="transhash" name="transhash" type="text" pattern="[^\s]+"
+                                    placeholder="Paste transaction hash" class="form-control input-sm"
+                                    autocomplete="off" required>
+                            </div>
+                            <small class="text text-left" id="mindepo"></small>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-3"></div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-success btn-block">Done!</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('assets/javascripts/clipboard.min.js') }}"></script>
+<script>
+    $('#modalDeposit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this);
+        const coin = button.data('coin');
+        const address = button.data('address');
+        const mindepo = button.data('mindepo');
+        modal.find('#mindepo').text("Minimum of deposit: " + mindepo + " " + coin);
+        modal.find('#messsend').text("Send only " + coin + " to this address");
+        modal.find('#address').val(address);
+        modal.find('#coin').val(coin);
+        modal.find('.modal-header #Title').text('Deposit ' + coin);
+        modal.find('#qrcoin').attr('alt', coin);
+        document.getElementById('qrcoin').src = '/assets/images/cryptos/wallet/' + coin + '/' + address +
+            '.png';
+        document.getElementById('imgcoin').src = '/assets/images/cryptos/' + new String(coin).toLowerCase() + '.png';
+    });
+
+    new ClipboardJS('.copied');
+</script>

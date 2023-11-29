@@ -1,0 +1,481 @@
+{% extends 'main.html.twig' %}
+
+{% block content %}
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2 class="appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">Withdraw</h2>
+
+        <div class="right-wrapper pull-right appear-animation fadeInLeftBig appear-animation-visible" data-appear-animation="fadeInLeftBig">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="{{ path('homepage') }}">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Finance</span></li>
+                <li><span>Withdrawal</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            {% set wallet = app.user.getWallet()  %}
+            {% if wallet != null %}
+            <div class="panel appear-animation fadeInUpBig appear-animation-visible" data-appear-animation="fadeInUpBig">
+                <div class="panel-body" style="background-color: #1a1a42;">
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2" >
+                            <section class="panel panel-primary panel-crypto {{ wallet.getBtc() == 0  ? 'disabledcrypto'}}" >
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/btc@2x.png') }}" alt="BTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[0].getName() }}({{ coins[0].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getBtc()|number_format(8, '.', ' ') }}
+                                        </span><span>BTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[0].getMinwithdraw() }} BTC
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[0].getWithdrawfee() }} BTC
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="BTC"
+                                        data-amount="{{ wallet.getBtc()|number_format(8, '.', ' ') }}"
+                                        data-minwith="{{ coins[0].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        BTC</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getEth() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/eth@2x.png') }}" alt="ETH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[1].getName() }}({{ coins[1].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getEth()|number_format(5, '.', ' ') }}
+                                        </span><span>ETH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[1].getMinwithdraw() }} ETH
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[1].getWithdrawfee() }} ETH
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="ETH"
+                                        data-amount="{{ wallet.getEth()|number_format(5, '.', ' ') }}"
+                                        data-minwith="{{ coins[1].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        ETH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getUsdt() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/usdt@2x.png') }}" alt="USDT">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[2].getName() }}({{ coins[2].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getUsdt()|number_format(2, '.', ' ') }}
+                                        </span><span>USDT</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[2].getMinwithdraw() }} USDT
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[2].getWithdrawfee() }} USDT
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="USDT"
+                                        data-amount="{{ wallet.getUsdt()|number_format(2, '.', ' ') }}"
+                                        data-minwith="{{ coins[2].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        USDT</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getLtc() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/ltc@2x.png') }}" alt="LTC">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[3].getName() }}({{ coins[3].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getLtc()|number_format(4, '.', ' ') }}
+                                        </span><span>LTC</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[3].getMinwithdraw() }} LTC
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[3].getWithdrawfee() }} LTC
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="LTC"
+                                        data-amount="{{ wallet.getLtc()|number_format(4, '.', ' ') }}"
+                                        data-minwith="{{ coins[3].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        LTC</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getXrp() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/xrp@2x.png') }}" alt="XRP">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[4].getName() }}({{ coins[4].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getXrp()|number_format(2, '.', ' ') }}
+                                        </span><span>XRP</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[4].getMinwithdraw() }} XRP
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[4].getWithdrawfee() }} XRP
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="XRP"
+                                        data-amount="{{ wallet.getXrp()|number_format(2, '.', ' ') }}"
+                                        data-minwith="{{ coins[4].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        XRP</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getBch() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/bch@2x.png') }}" alt="BCH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[5].getName() }}({{ coins[5].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getBch()|number_format(5, '.', ' ') }}
+                                        </span><span>BCH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[5].getMinwithdraw() }} BCH
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[5].getWithdrawfee() }} BCH
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="BCH"
+                                        data-amount="{{ wallet.getBch()|number_format(5, '.', ' ') }}"
+                                        data-minwith="{{ coins[5].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        BCH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getTrx() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/trx@2x.png') }}" alt="TRX">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[6].getName() }}({{ coins[6].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getTrx()|number_format(2, '.', ' ') }}
+                                        </span><span>TRX</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[6].getMinwithdraw() }} TRX
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[6].getWithdrawfee() }} TRX
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="TRX"
+                                        data-amount="{{ wallet.getTrx()|number_format(2, '.', ' ') }}"
+                                        data-minwith="{{ coins[6].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        TRX</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getDoge() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/doge@2x.png') }}" alt="DOGE">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[7].getName() }}({{ coins[7].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getDoge()|number_format(2, '.', ' ') }}
+                                        </span><span>DOGE</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[7].getMinwithdraw() }} DOGE
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[7].getWithdrawfee() }} DOGE
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="DOGE"
+                                        data-amount="{{ wallet.getDoge()|number_format(2, '.', ' ') }}"
+                                        data-minwith="{{ coins[7].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        DOGE</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getDash() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/dash@2x.png') }}" alt="DASH">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[8].getName() }}({{ coins[8].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getDash()|number_format(5, '.', ' ') }}
+                                        </span><span>DASH</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[8].getMinwithdraw() }} DASH
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[8].getWithdrawfee() }} DASH
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="DASH"
+                                        data-amount="{{ wallet.getDash()|number_format(5, '.', ' ') }}"
+                                        data-minwith="{{ coins[8].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        DASH</a>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-2">
+                            <section class="panel panel-primary panel-crypto {{ wallet.getNano() == 0  ? 'disabledcrypto'}}">
+                                <header class="panel-heading">
+                                    <div class="panel-heading-icon bg-primary">
+                                        <img src="{{ asset('assets/images/cryptos/nano@2x.png') }}" alt="NANO">
+                                    </div>
+                                    <p class="panel-subtitle text-uppercase text-bold">{{ coins[9].getName() }}({{ coins[9].getAbbr() }})</p>
+                                </header>
+                                <div class="panel-body">
+                                    <p class="text text-right" style="margin-bottom: 0 !important;" class="text">
+                                        <span class="cryptowith">
+                                            {{ wallet.getNano()|number_format(4, '.', ' ') }}
+                                        </span><span>NANO</span>
+                                    </p>
+                                    <p class="text text-right"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important;">$0.00</p>
+                                    <hr style="margin-top: 4px !important; margin-bottom: 4px !important;">
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Minimum withdrawal: {{ coins[9].getMinwithdraw() }} NANO
+                                    </p>
+                                    <p class="text text-center text-dark"
+                                        style="margin-top: 0 !important; margin-bottom: 0 !important; font-family: Arial, Helvetica, sans-serif;">
+                                        Withdrawal fee: {{ coins[9].getWithdrawfee() }} NANO
+                                    </p>
+                                </div>
+                                <div class="panel-footer">
+                                    <a class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-coin="NANO"
+                                        data-amount="{{ wallet.getNano()|number_format(4, '.', ' ') }}"
+                                        data-minwith="{{ coins[9].getMinwithdraw() }}" href="#modalWithdrawal">Withdraw
+                                        NANO</a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <section class="panel appear-animation fadeInRight appear-animation-visible" data-appear-animation="fadeInRight">
+
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>
+
+                    <h2 class="panel-title">My withdrawals</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed mb-none">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cryptocurrency</th>
+                                    <th>Amount</th>
+                                    <th class="text-center">Address</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set withdrawals = app.user.getWithdrawls() %}
+                                {% for withdrawal in withdrawals %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="text-center">
+                                        <img src="{{ asset("assets/images/cryptos/" ~ withdrawal.coin.abbr|lower ~ ".png") }}"
+                                            alt="{{ withdrawal.coin.abbr|upper }}" data-toggle="tooltip"
+                                            data-placement="top" title="{{ withdrawal.coin.abbr|upper }}">
+                                    </td>
+                                    <td>{{ withdrawal.amount }}</td>
+                                    <td class="text-center">{{ withdrawal.address }}</td>
+                                    <td class="text-center img-fluid">{{ withdrawal.date|date("m/d/Y") }}</td>
+                                    <td class="text-center">
+                                        {% if withdrawal.status == 'Processing' %}
+                                        <i class="fa fa-spinner fa-spin" data-toggle="tooltip" data-placement="top"
+                                            title="{{ withdrawal.status}}"></i>
+                                        {% elseif withdrawal.status == 'Done' %}
+                                        <i class="fa fa-check text-success" data-toggle="tooltip" data-placement="top"
+                                            title="{{ withdrawal.status}}"></i>
+                                        {% else %}
+                                        <i class="fa fa-times text-danger" data-toggle="tooltip" data-placement="top"
+                                            title="{{ withdrawal.status}}"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        const crypto = async () => {
+            try {
+                var usds = $('.cryptowith');
+                for (i = 0; i < usds.length; i++) {
+                    const url =
+                        "https://min-api.cryptocompare.com/data/price?fsym=" + $(usds[i]).next().text() +
+                        "&tsyms=USD";
+                    const resp = await fetch(url);
+                    const res = await resp.json();
+                    var numero = parseFloat($(usds[i]).text().replace(/ /g, "")) * parseFloat(res.USD);
+                    $(usds[i]).parent().next().html('<span>$' + numero.toFixed(2) + '</span>');
+                }
+            } catch (error) {
+                if (new String(error).includes('NetworkError')) {
+                  /*  toastr["error"]("Connection error", 'Error', {
+                        progressBar: true,
+                    });*/
+                }
+                return error;
+            }
+        };
+
+        crypto();
+    </script>
+
+</section>
+
+{% include 'modalwithdrawal.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
+<script src="{{ asset('assets/bootstrap/bootstrap.min.js') }}"></script>
+{% endblock %}
