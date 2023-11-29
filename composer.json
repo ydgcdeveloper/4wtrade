@@ -43,7 +43,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "oro/doctrine-extensions": "^2.0",
-        "symfonycasts/reset-password-bundle": "^1.0"
+        "symfonycasts/reset-password-bundle": "^1.0",
+        "friendsofsymfony/jsrouting-bundle": "^2.7"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
